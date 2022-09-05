@@ -9,7 +9,10 @@ const initialState = {
       category: "test1",
       time: "05/09/2022, 21:13:19",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta eius laborum voluptate hic aut doloremque officiis quasi quos explicabo molestiae!",
-      comments: ["comment1", "comment2" ],
+      comments: [
+        { id: 1, user: "admin", text: "hello" },
+        { id: 2, user: "admin", text: "world" },
+      ],
       upVote: 10,
       downVote: 5,
       email: "admin@admin.com",

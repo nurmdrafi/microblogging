@@ -1,24 +1,28 @@
 import React, { useState, useContext } from "react";
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { GlobalContext } from "../context/GlobalState";
 
 const Article = ({ article }) => {
-  const [comment, setComment] = useState("");
-  const { updateArticle, articles } = useContext(GlobalContext);
+  const [text, setText] = useState("");
+  const { updateArticle } = useContext(GlobalContext);
+
+  const handleUpVote = () => {};
+  const handleDownVote = () => {};
 
   const handleSubmitComment = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      const comments = [...article.comments, comment]
-      const updatedArticle ={
+      const comment = {id: article.comments.length + 1, user: "Rafe", text: text}
+      const comments = [...article.comments, comment];
+      const updatedArticle = {
         ...article,
-        comments
+        comments,
       };
-      updateArticle(updatedArticle)
-      setComment("");
+      updateArticle(updatedArticle);
+      setText("");
     }
   };
-  console.log(articles);
+  console.log(article);
 
   return (
     <div className="card w-96 bg-base-100 shadow-xl mx-auto my-10">
@@ -32,26 +36,49 @@ const Article = ({ article }) => {
         <h2>{article.userName}</h2>
         <span>Last Updated: {article.time}</span>
         <p className="text-black">{article.body}</p>
+
         {/* upvote & downvote */}
-        <div className="flex justify-end items-center text-black ">
-          <span className="flex flex-col items-center justify-center cursor-pointer rounded-full p-1 w-12 h-12 border shadow-md mr-1">
-            {" "}
-            <IoIosArrowUp className="text-2xl" /> {article.upVote}
-          </span>
-          <span className="flex flex-col items-center justify-center cursor-pointer rounded-full p-1 w-12 h-12 border shadow-md">
-            {" "}
-            <IoIosArrowDown className="text-2xl" />
-            {article.downVote}
-          </span>
+        <div className="flex justify-start items-center text-black my-2">
+          <div className="flex items-center">
+            <AiFillLike
+              className="text-2xl cursor-pointer"
+              onClick={handleUpVote}
+            />{" "}
+            <span className="ml-1">{article.upVote}</span>
+          </div>
+          <div className="flex items-center">
+            <AiFillDislike
+              className="text-2xl cursor-pointer ml-6"
+              onClick={handleDownVote}
+            />
+            <span className="ml-1">{article.downVote}</span>
+          </div>
         </div>
         <input
           className="input bg-secondary text-black"
           type="text"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           onKeyDown={handleSubmitComment}
           placeholder="Write a public comment..."
         />
+        {/* comments */}
+        <div>
+          {article.comments.map((comment) => (
+            <div key={comment.id} className="flex">
+              {/* avatar */}
+              <span className="w-12 h-12 bg-primary text-white text-3xl flex justify-center items-center uppercase mr-2">
+                {comment.user[0]}
+              </span>
+              {/* comment */}
+              <p className="p-3 mb-2 bg-secondary text-gray-600 break-words rounded-sm">
+                {" "}
+                <span className="text-primary capitalize">{comment.user}</span> <br />
+                {comment.text}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
