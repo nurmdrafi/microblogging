@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from "uuid";
+import { GlobalContext } from "../context/GlobalState";
 
 const CreatePost = () => {
+  const { addArticle, articles } = useContext(GlobalContext);
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-
+  let today = new Date();
   const handleCreatePost = (data) => {
-    const id = uuidv4();
-    localStorage.setItem(`${id}`, JSON.stringify([data.title, data.article]));
+    // const id = uuidv4();
+    const newPost = {
+      id: articles.length + 1,
+      title: data.title,
+      category: data.category,
+      time: today.toLocaleString(),
+      body: data.body,
+      comments: [],
+      upVote: 0,
+      downVote: 0,
+      email: "",
+      userName: "",
+    };
+    addArticle(newPost);
     reset();
   };
   return (
@@ -42,21 +57,42 @@ const CreatePost = () => {
             )}
           </div>
 
-          {/* Article */}
+          {/* Category */}
+          <div className="form-control min-w-[350px]">
+            <input
+              type="text"
+              placeholder="Category"
+              className={`input input-bordered w-full text-black bg-secondary ${
+                errors.category && "input-error"
+              }`}
+              {...register("category", {
+                required: "Please enter your post category",
+              })}
+            />
+            {/* Error Message */}
+            {errors.category?.type === "required" && (
+              <p className="text-error text-left pt-2">
+                {errors.category.message}
+              </p>
+            )}
+          </div>
+
+
+          {/* Body */}
           <div className="form-control min-w-[350px]">
             <textarea
               type="text"
-              placeholder="Your article"
+              placeholder="Body"
               className={`textarea textarea-bordered w-full text-black bg-secondary ${
                 errors.post && "textarea-error"
               }`}
-              {...register("article", {
+              {...register("body", {
                 required: "Please write your article",
               })}
             />
             {/* Error Message */}
-            {errors.article?.type === "required" && (
-              <p className="text-error text-left pt-2">{errors.article.message}</p>
+            {errors.body?.type === "required" && (
+              <p className="text-error text-left pt-2">{errors.body.message}</p>
             )}
           </div>
           {/* Submit Button */}

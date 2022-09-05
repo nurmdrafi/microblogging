@@ -5,13 +5,27 @@ const initialState = {
   articles: [
     {
       id: 1,
-      title: "hello",
+      title: "hello1",
+      category: "test1",
+      time: "05/09/2022, 21:13:19",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta eius laborum voluptate hic aut doloremque officiis quasi quos explicabo molestiae!",
+      comments: ["comment1", "comment2" ],
+      upVote: 10,
+      downVote: 5,
+      email: "admin@admin.com",
+      userName: "admin",
     },
     {
       id: 2,
       title: "hello2",
+      category: "test2",
+      time: "05/09/2022, 21:13:30",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta eius laborum voluptate hic aut doloremque officiis quasi quos explicabo molestiae!",
+      comments: [],
+      upVote: 15,
+      downVote: 1,
+      email: "admin@admin.com",
+      userName: "admin",
     },
   ],
 };
@@ -21,23 +35,23 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
-  function addPost(post) {
+  function addArticle(article) {
     dispatch({
-      type: "ADD_POST",
-      payload: post,
+      type: "ADD_ARTICLE",
+      payload: article,
     });
   }
 
-  function editPost(post) {
+  function updateArticle(article) {
     dispatch({
-      type: "EDIT_POST",
-      payload: post,
+      type: "UPDATE_ARTICLE",
+      payload: article,
     });
   }
 
-  function removePost(id) {
+  function removeArticle(id) {
     dispatch({
-      type: "REMOVE_POST",
+      type: "REMOVE_ARTICLE",
       payload: id,
     });
   }
@@ -46,9 +60,9 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         articles: state.articles,
-        addPost,
-        editPost,
-        removePost,
+        addArticle,
+        updateArticle,
+        removeArticle,
       }}
     >
       {children}
