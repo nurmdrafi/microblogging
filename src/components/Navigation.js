@@ -11,7 +11,6 @@ const Navigation = () => {
     signOut(auth);
     navigate("/login");
   };
-  console.log(user?.displayName?.[0])
   return (
     <nav>
       <div className="navbar bg-base-100 lg:px-16 px-12 shadow-md mb-10">

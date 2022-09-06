@@ -9,7 +9,8 @@ const Article = ({ article }) => {
   const [text, setText] = useState("");
   const { updateArticle } = useContext(GlobalContext);
   const [focus, setFocus] = useState(false);
-  const currentUser = article.upVoteUsers.includes(user?.email);
+  const upVoteCurrentUser = article.upVoteUsers.includes(user?.email);
+  const downVoteCurrentUser = article.downVoteUsers.includes(user?.email);
 
   // Up Vote Functionality
   const [statusUpVote, setStatusUpVote] = useState(false);
@@ -26,7 +27,7 @@ const Article = ({ article }) => {
   );
 
   const handleUpVote = () => {
-    if (!currentUser && !statusUpVote) {
+    if (!upVoteCurrentUser && !statusUpVote) {
       setStatusUpVote(true);
       const updatedVoteCount = {
         ...article,
@@ -34,7 +35,7 @@ const Article = ({ article }) => {
         upVoteUsers,
       };
       updateArticle(updatedVoteCount);
-    } else if (currentUser && statusUpVote) {
+    } else if (upVoteCurrentUser && statusUpVote) {
       setStatusUpVote(false);
 
       const updatedVoteCount = {
@@ -47,7 +48,7 @@ const Article = ({ article }) => {
   };
 
   const handleDownVote = () => {
-    if (!currentUser && !statusDownVote) {
+    if (!downVoteCurrentUser && !statusDownVote) {
       setStatusDownVote(true);
       const updatedVoteCount = {
         ...article,
@@ -55,7 +56,7 @@ const Article = ({ article }) => {
         downVoteUsers,
       };
       updateArticle(updatedVoteCount);
-    } else if (currentUser && statusDownVote) {
+    } else if (downVoteCurrentUser && statusDownVote) {
       setStatusDownVote(false);
 
       const updatedVoteCount = {
