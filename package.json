@@ -7,8 +7,10 @@
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
     "daisyui": "^2.24.2",
+    "firebase": "^9.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-firebase-hooks": "^5.0.3",
     "react-hook-form": "^7.34.2",
     "react-icons": "^4.4.0",
     "react-router-dom": "6",
@@ -19,7 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "tailwindcss -i ./src/App.css -o ./output.css --watch",
+    "tailwindcss": "tailwindcss -i ./src/App.css -o ./output.css --watch",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -1,16 +1,24 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { ArticleList } from "./components/ArticleList";
+import Navigation from "./components/Navigation";
 import { GlobalProvider } from "./context/GlobalState";
-import CreatePost from "./components/CreatePost";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import Notfound from "./pages/Notfound/Notfound";
+import Registration from "./pages/Registration/Registration";
 
 function App() {
   return (
     <GlobalProvider>
-      <CreatePost />
-      <div className="bg-white h-screen">
-        <ArticleList />
-      </div>
+      <Navigation/>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/home" element={<Home/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/registration" element={<Registration/>}/>
+        <Route path="*" element={<Notfound/>}/>
+      </Routes>
     </GlobalProvider>
   );
 }
