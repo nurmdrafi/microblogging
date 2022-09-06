@@ -91,7 +91,7 @@ const Article = ({ article }) => {
   };
   // console.log(articles)
   return (
-    <div className="card w-96 bg-base-100 shadow-xl mx-auto my-10">
+    <div className="card container lg:px-10 bg-base-100 mx-auto my-10 shadow-md">
       <div className="card-body">
         <div className="flex justify-between items-center">
           {/* Title */}

@@ -34,14 +34,14 @@ const CreatePost = () => {
     reset();
   };
   return (
-    <div className="card mx-auto max-w-md bg-white drop-shadow-lg">
-      <div className="card-body items-center text-center">
+    <div className="flex justify-center mx-auto container bg-white">
+      <div className=" mx-auto items-center text-center">
         <form
           onSubmit={handleSubmit(handleCreatePost)}
           className=" flex flex-col gap-3"
         >
           {/* Title */}
-          <div className="form-control min-w-[350px]">
+          <div className="form-control min-w-[350px] max-w-screen-lg">
             <input
               type="text"
               placeholder="Title"
@@ -61,7 +61,7 @@ const CreatePost = () => {
           </div>
 
           {/* Category */}
-          <div className="form-control min-w-[350px]">
+          <div className="form-control min-w-[350px] max-w-screen-lg">
             <input
               type="text"
               placeholder="Category"
@@ -81,7 +81,7 @@ const CreatePost = () => {
           </div>
 
           {/* Body */}
-          <div className="form-control min-w-[350px]">
+          <div className="form-control min-w-[350px] max-w-screen-lg">
             <textarea
               type="text"
               placeholder="Body"
@@ -100,7 +100,7 @@ const CreatePost = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="btn btn-active btn-primary text-white uppercase min-w-[350px]"
+            className="btn btn-active btn-primary text-white uppercase min-w-[350px] max-w-screen-lg"
           >
             Submit
           </button>
