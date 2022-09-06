@@ -8,24 +8,52 @@ const Article = ({ article }) => {
   const [user] = useAuthState(auth);
   const [text, setText] = useState("");
   const { updateArticle } = useContext(GlobalContext);
+  const [focus, setFocus] = useState(false);
 
-  const handleUpVote = () => {};
+  const [upVoteCount, setUpVoteCount] = useState(0);
+  const [downVoteCount, setDownVoteCount] = useState(0)
+
+  console.log(article?.upVote);
+  const handleUpVote = () => {
+    const currentUser = article?.upVoteUsers.includes(user?.email);
+    if(!currentUser){
+      setUpVoteCount(article?.upVote + 1)
+    } else{
+      setUpVoteCount(article?.upVote - 1)
+    }
+
+    const upVote = upVoteCount;
+
+    const updatedVoteCount = {
+      ...article,
+      upVote,
+    }
+    updateArticle(updatedVoteCount);
+  };
+
   const handleDownVote = () => {};
 
   const handleSubmitComment = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      const comment = {id: article.comments.length + 1, user: user?.displayName, text: text}
-      const comments = [...article.comments, comment];
-      const updatedArticle = {
-        ...article,
-        comments,
-      };
-      updateArticle(updatedArticle);
-      setText("");
+
+      if (text) {
+        const comment = {
+          id: article.comments.length + 1,
+          user: user?.displayName,
+          text: text,
+        };
+
+        const comments = [...article.comments, comment];
+        const updatedArticle = {
+          ...article,
+          comments,
+        };
+        updateArticle(updatedArticle);
+        setText("");
+      }
     }
   };
-  console.log(article);
 
   return (
     <div className="card w-96 bg-base-100 shadow-xl mx-auto my-10">
@@ -36,10 +64,14 @@ const Article = ({ article }) => {
             {article.title}
           </h2>
           {/* Category */}
-          <span className="badge badge-secondary capitalize">{article.category}</span>
+          <span className="badge badge-secondary capitalize">
+            {article.category}
+          </span>
         </div>
         {/* Author */}
-        <h2 className="capitalize text-black font-bold text-lg">{article.userName}</h2>
+        <h2 className="capitalize text-black font-bold text-lg">
+          {article.userName}
+        </h2>
         {/* Body */}
         <p className="text-black capitalize">{article.body}</p>
         <span>Last Updated: {article.time}</span>
@@ -61,15 +93,19 @@ const Article = ({ article }) => {
             <span className="ml-1">{article.downVote}</span>
           </div>
         </div>
+        {/* Write Comment */}
         <input
           className="input bg-secondary text-black"
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleSubmitComment}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
           placeholder="Write a public comment..."
         />
-        {/* comments */}
+        {focus && <span className="ml-auto">Press <kbd className="w-10 animate-pulse kbd kbd-xs bg-secondary rounded-none">Enter</kbd> </span>}
+        {/* Comments */}
         <div>
           {article.comments.map((comment) => (
             <div key={comment.id} className="flex">
@@ -80,7 +116,10 @@ const Article = ({ article }) => {
               {/* comment */}
               <p className="p-3 mb-2 bg-secondary text-gray-600 break-words rounded-sm">
                 {" "}
-                <span className="text-primary capitalize">{comment.user}</span> <br />
+                <span className="text-primary capitalize">
+                  {comment.user}
+                </span>{" "}
+                <br />
                 {comment.text}
               </p>
             </div>

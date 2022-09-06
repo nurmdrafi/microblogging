@@ -14,7 +14,9 @@ const initialState = {
         { id: 2, user: "admin", text: "world" },
       ],
       upVote: 10,
+      upVoteUsers: ["nurmdrafi@gmail.com"],
       downVote: 5,
+      downVoteUser: [],
       email: "admin@admin.com",
       userName: "admin",
     },
@@ -26,7 +28,9 @@ const initialState = {
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta eius laborum voluptate hic aut doloremque officiis quasi quos explicabo molestiae!",
       comments: [],
       upVote: 15,
+      upVoteUsers: [],
       downVote: 1,
+      downVoteUsers: [],
       email: "admin@admin.com",
       userName: "admin",
     },
@@ -52,12 +56,6 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function removeArticle(id) {
-    dispatch({
-      type: "REMOVE_ARTICLE",
-      payload: id,
-    });
-  }
 
   return (
     <GlobalContext.Provider
@@ -65,7 +63,6 @@ export const GlobalProvider = ({ children }) => {
         articles: state.articles,
         addArticle,
         updateArticle,
-        removeArticle,
       }}
     >
       {children}

@@ -24,7 +24,9 @@ const CreatePost = () => {
       body: data.body,
       comments: [],
       upVote: 0,
+      upVoteUsers: [],
       downVote: 0,
+      downVoteUsers: [],
       email: user?.email,
       userName: user?.displayName,
     };

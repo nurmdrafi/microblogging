@@ -21,13 +21,6 @@ const appReducer = (state, action) => {
         articles: updatedArticles,
       };
 
-    case "REMOVE_ARTICLE":
-      return {
-        ...state,
-        articles: state.articles.filter(
-          (article) => article.id !== action.payload
-        ),
-      };
 
     default:
       return state;
