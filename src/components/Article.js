@@ -9,26 +9,39 @@ const Article = ({ article }) => {
   const [text, setText] = useState("");
   const { updateArticle } = useContext(GlobalContext);
   const [focus, setFocus] = useState(false);
+  const currentUser = article.upVoteUsers.includes(user?.email);
 
-  const [upVoteCount, setUpVoteCount] = useState(0);
-  const [downVoteCount, setDownVoteCount] = useState(0)
+  const [status, setStatus] = useState(false);
 
-  console.log(article?.upVote);
+  const upVoteUsers = [...article.upVoteUsers, user?.email];
+  
+  const excludeEmail = article.upVoteUsers.filter( email =>
+    email !== user?.email
+  );
+  
   const handleUpVote = () => {
-    const currentUser = article?.upVoteUsers.includes(user?.email);
-    if(!currentUser){
-      setUpVoteCount(article?.upVote + 1)
-    } else{
-      setUpVoteCount(article?.upVote - 1)
-    }
+    console.log(status, "status");
+    if (!currentUser && !status) {
+      setStatus(true);
+      const updatedVoteCount = {
+        ...article,
+        upVote: article?.upVote + 1,
+        upVoteUsers,
+      };
+      updateArticle(updatedVoteCount);
+      console.log(currentUser, "currentUser");
+    } else if (currentUser && status) {
+      console.log(currentUser, "currentUser");
+      setStatus(false);
+      console.log("falsessss");
+      const updatedVoteCount = {
+        ...article,
+        upVote: article?.upVote - 1,
+        upVoteUsers: excludeEmail,
+      };
 
-    const upVote = upVoteCount;
-
-    const updatedVoteCount = {
-      ...article,
-      upVote,
+      updateArticle(updatedVoteCount);
     }
-    updateArticle(updatedVoteCount);
   };
 
   const handleDownVote = () => {};
@@ -54,7 +67,7 @@ const Article = ({ article }) => {
       }
     }
   };
-
+  // console.log(articles)
   return (
     <div className="card w-96 bg-base-100 shadow-xl mx-auto my-10">
       <div className="card-body">
@@ -104,7 +117,14 @@ const Article = ({ article }) => {
           onBlur={() => setFocus(false)}
           placeholder="Write a public comment..."
         />
-        {focus && <span className="ml-auto">Press <kbd className="w-10 animate-pulse kbd kbd-xs bg-secondary rounded-none">Enter</kbd> </span>}
+        {focus && (
+          <span className="ml-auto">
+            Press{" "}
+            <kbd className="w-10 animate-pulse kbd kbd-xs bg-secondary rounded-none">
+              Enter
+            </kbd>{" "}
+          </span>
+        )}
         {/* Comments */}
         <div>
           {article.comments.map((comment) => (
