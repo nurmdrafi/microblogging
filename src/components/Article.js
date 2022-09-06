@@ -11,40 +11,61 @@ const Article = ({ article }) => {
   const [focus, setFocus] = useState(false);
   const currentUser = article.upVoteUsers.includes(user?.email);
 
-  const [status, setStatus] = useState(false);
-
+  // Up Vote Functionality
+  const [statusUpVote, setStatusUpVote] = useState(false);
   const upVoteUsers = [...article.upVoteUsers, user?.email];
-  
-  const excludeEmail = article.upVoteUsers.filter( email =>
-    email !== user?.email
+  const excludeEmailUpVote = article.upVoteUsers.filter(
+    (email) => email !== user?.email
   );
-  
+
+  // Down Vote Functionality
+  const [statusDownVote, setStatusDownVote] = useState(false);
+  const downVoteUsers = [...article.downVoteUsers, user?.email];
+  const excludeEmailDownVote = article.downVoteUsers.filter(
+    (email) => email !== user?.email
+  );
+
   const handleUpVote = () => {
-    console.log(status, "status");
-    if (!currentUser && !status) {
-      setStatus(true);
+    if (!currentUser && !statusUpVote) {
+      setStatusUpVote(true);
       const updatedVoteCount = {
         ...article,
         upVote: article?.upVote + 1,
         upVoteUsers,
       };
       updateArticle(updatedVoteCount);
-      console.log(currentUser, "currentUser");
-    } else if (currentUser && status) {
-      console.log(currentUser, "currentUser");
-      setStatus(false);
-      console.log("falsessss");
+    } else if (currentUser && statusUpVote) {
+      setStatusUpVote(false);
+
       const updatedVoteCount = {
         ...article,
         upVote: article?.upVote - 1,
-        upVoteUsers: excludeEmail,
+        upVoteUsers: excludeEmailUpVote,
       };
-
       updateArticle(updatedVoteCount);
     }
   };
 
-  const handleDownVote = () => {};
+  const handleDownVote = () => {
+    if (!currentUser && !statusDownVote) {
+      setStatusDownVote(true);
+      const updatedVoteCount = {
+        ...article,
+        downVote: article?.downVote + 1,
+        downVoteUsers,
+      };
+      updateArticle(updatedVoteCount);
+    } else if (currentUser && statusDownVote) {
+      setStatusDownVote(false);
+
+      const updatedVoteCount = {
+        ...article,
+        downVote: article?.downVote - 1,
+        downVoteUsers: excludeEmailDownVote,
+      };
+      updateArticle(updatedVoteCount);
+    }
+  };
 
   const handleSubmitComment = (e) => {
     if (e.key === "Enter") {
