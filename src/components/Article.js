@@ -115,14 +115,14 @@ const Article = ({ article }) => {
         <div className="flex justify-start items-center text-black my-2">
           <div className="flex items-center">
             <AiFillLike
-              className="text-2xl cursor-pointer"
+              className={`text-2xl cursor-pointer ${upVoteCurrentUser && "text-primary"}`}
               onClick={handleUpVote}
             />{" "}
             <span className="ml-1">{article.upVote}</span>
           </div>
           <div className="flex items-center">
             <AiFillDislike
-              className="text-2xl cursor-pointer ml-6"
+              className={`text-2xl cursor-pointer ml-6 ${downVoteCurrentUser && "text-primary"}`}
               onClick={handleDownVote}
             />
             <span className="ml-1">{article.downVote}</span>
