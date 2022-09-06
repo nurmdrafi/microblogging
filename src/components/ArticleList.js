@@ -10,7 +10,9 @@ export const ArticleList = () => {
     <div className="bg-white">
       {articles.length > 0 ? (
         <>
-          {articles.map((article, index)=> (<Article key={index} article={article}/>))}
+          {articles.map((article) => (
+            <Article key={article.id} article={article} />
+          ))}
         </>
       ) : (
         <p>No Data.</p>

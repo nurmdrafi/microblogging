@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-// import { v4 as uuidv4 } from "uuid";
 import { GlobalContext } from "../context/GlobalState";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../firebase.init";
 
 const CreatePost = () => {
+  const [user] = useAuthState(auth);
   const { addArticle, articles } = useContext(GlobalContext);
 
   const {
@@ -14,7 +16,6 @@ const CreatePost = () => {
   } = useForm();
   let today = new Date();
   const handleCreatePost = (data) => {
-    // const id = uuidv4();
     const newPost = {
       id: articles.length + 1,
       title: data.title,
@@ -24,8 +25,8 @@ const CreatePost = () => {
       comments: [],
       upVote: 0,
       downVote: 0,
-      email: "",
-      userName: "",
+      email: user?.email,
+      userName: user?.displayName,
     };
     addArticle(newPost);
     reset();
@@ -76,7 +77,6 @@ const CreatePost = () => {
               </p>
             )}
           </div>
-
 
           {/* Body */}
           <div className="form-control min-w-[350px]">
