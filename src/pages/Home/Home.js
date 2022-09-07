@@ -26,7 +26,7 @@ const Home = () => {
   }
 
   return (
-    <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex-col min-h-[calc(100vh-80px)] justify-center items-center">
+    <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex-col min-h-[calc(100vh-65px)] justify-center items-center">
       {/* Create Post Modal Button */}
       <div className="flex justify-center">
         <button className="btn-primary btn text-white" onClick={openModal}>
@@ -37,6 +37,7 @@ const Home = () => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
+        ariaHideApp={false}
         contentLabel="Create Post Modal"
       >
         <div className="flex justify-end mb-5">

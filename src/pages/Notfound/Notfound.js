@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Notfound = () => {
   return (
-    <div className=" bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-80px)] items-center justify-center">
+    <div className=" bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div className="flex flex-col gap-3 text-black">
         <p className="text-red-600 font-bold text-3xl">ERROR 404</p>
         <h2 className="text-xl">

@@ -4,12 +4,12 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import toast, { Toaster } from "react-hot-toast";
+import Loading from "../../components/Loading";
 
 const Login = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
     reset,
   } = useForm();
@@ -25,55 +25,11 @@ const Login = () => {
 
   // handle login
   const handleLogin = async (data) => {
-    // Check White Space
-    if (!/^\S*$/.test(data.password)) {
-      setError("password", {
-        type: "whitespace",
-        message: "Your password must not contain Whitespaces",
-      });
-    }
-    // Check at least One Uppercase
-    else if (!/^(?=.*[A-Z]).*$/.test(data.password)) {
-      setError("password", {
-        type: "uppercase",
-        message: "Your password must have at least one Uppercase Character",
-      });
-    }
-    // Check at least One Lowercase
-    else if (!/^(?=.*[a-z]).*$/.test(data.password)) {
-      setError("password", {
-        type: "lowercase",
-        message: "Your password must have at least one Lowercase Character",
-      });
-    }
-    // Check at least one digit
-    else if (!/^(?=.*[0-9]).*$/.test(data.password)) {
-      setError("password", {
-        type: "digit",
-        message: "Your password must contain at least one Digit",
-      });
-    }
-    // Check at least one symbol
-    else if (
-      !/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(data.password)
-    ) {
-      setError("password", {
-        type: "symbol",
-        message: "Your password must contain at least one Special Symbol",
-      });
-    }
-    // Check Minimum 8 characters
-    else if (!/^.{10,16}$/.test(data.password)) {
-      setError("password", {
-        type: "length",
-        message: "Your password must be 10-16 Characters Long",
-      });
-    } else {
-      await signInWithEmailAndPassword(data.email, data.password);
-      //   console.log(data);
-      reset();
-    }
+    // console.log(data);
+    await signInWithEmailAndPassword(data.email, data.password);
+    reset();
   };
+  // console.log(errors);
 
   // Navigate
   useEffect(() => {
@@ -84,7 +40,7 @@ const Login = () => {
 
   // Loading
   if (loading) {
-    return <p className="text-center text-4xl font-bold">Loading...</p>;
+    return <Loading />;
   }
 
   // Error
@@ -94,7 +50,7 @@ const Login = () => {
     });
   }
   return (
-    <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-80px)] items-center justify-center">
+    <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div>
         <Toaster />
       </div>
@@ -131,7 +87,7 @@ const Login = () => {
                   </p>
                 )}
                 {errors.email?.type === "pattern" && (
-                  <p className="text-danger py-2 text-left text-red-500">
+                  <p className="text-danger py-2 text-left text-error">
                     {errors.email.message}
                   </p>
                 )}
@@ -141,12 +97,35 @@ const Login = () => {
               <div className="form-control min-w-[350px]">
                 <label className="text-left pb-1">Password</label>
                 <input
-                  type="text"
+                  type="password"
                   className={`input input-bordered w-full bg-secondary ${
                     errors.password && "input-error"
                   }`}
                   {...register("password", {
                     required: "Please enter your password",
+                    minLength: {
+                      value: 8,
+                      message: "Your pass must have 8 characters",
+                    },
+                    validate: {
+                      whitespace: (v) =>
+                        /^\S*$/.test(v) ||
+                        "Your password must not contain whitespace",
+                      oneUpperCase: (v) =>
+                        /^(?=.*[A-Z]).*$/.test(v) ||
+                        "Your password must have at least one uppercase character",
+                      oneLowerCase: (v) =>
+                        /^(?=.*[a-z]).*$/.test(v) ||
+                        "Your password must have at least one lowercase character",
+                      oneDigit: (v) =>
+                        /^(?=.*[0-9]).*$/.test(v) ||
+                        "Your password must have at least one digit",
+                      oneSymbol: (v) =>
+                        /^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(
+                          v
+                        ) ||
+                        "Your password must have at least one special symbol",
+                    },
                   })}
                 />
                 {/* Error Message */}
@@ -156,31 +135,31 @@ const Login = () => {
                   </p>
                 )}
                 {errors.password?.type === "whitespace" && (
-                  <p className="text-danger py-2 text-left text-red-500">
-                    {errors.password.message}
-                  </p>
-                )}
-                {errors.password?.type === "uppercase" && (
                   <p className="py-2 text-left text-error">
                     {errors.password.message}
                   </p>
                 )}
-                {errors.password?.type === "lowercase" && (
+                {errors.password?.type === "oneUpperCase" && (
                   <p className="py-2 text-left text-error">
                     {errors.password.message}
                   </p>
                 )}
-                {errors.password?.type === "digit" && (
+                {errors.password?.type === "oneLowerCase" && (
                   <p className="py-2 text-left text-error">
                     {errors.password.message}
                   </p>
                 )}
-                {errors.password?.type === "symbol" && (
+                {errors.password?.type === "oneDigit" && (
                   <p className="py-2 text-left text-error">
                     {errors.password.message}
                   </p>
                 )}
-                {errors.password?.type === "length" && (
+                {errors.password?.type === "oneSymbol" && (
+                  <p className="py-2 text-left text-error">
+                    {errors.password.message}
+                  </p>
+                )}
+                {errors.password?.type === "minLength" && (
                   <p className="py-2 text-left text-error">
                     {errors.password.message}
                   </p>

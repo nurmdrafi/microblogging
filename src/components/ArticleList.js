@@ -10,7 +10,7 @@ export const ArticleList = () => {
     <div className="columns-1 md:columns-2 mt-16 lg:px-10 px-5 ">
       {articles.length > 0 ? (
         <>
-          {articles.map((article) => (
+          {articles.slice(0).reverse().map((article) => (
             <Article key={article.id} article={article} />
           ))}
         </>

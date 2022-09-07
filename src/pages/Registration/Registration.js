@@ -7,6 +7,7 @@ import {
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import toast, { Toaster } from "react-hot-toast";
+import Loading from "../../components/Loading";
 
 const Registration = () => {
   const {
@@ -29,50 +30,7 @@ const Registration = () => {
 
   // Handle Registration
   const handleRegistration = async (data) => {
-    // Check White Space
-    if (!/^\S*$/.test(data.password)) {
-      setError("password", {
-        type: "whitespace",
-        message: "Your password must not contain Whitespaces",
-      });
-    }
-    // Check at least One Uppercase
-    else if (!/^(?=.*[A-Z]).*$/.test(data.password)) {
-      setError("password", {
-        type: "uppercase",
-        message: "Your password must have at least one Uppercase Character",
-      });
-    }
-    // Check at least One Lowercase
-    else if (!/^(?=.*[a-z]).*$/.test(data.password)) {
-      setError("password", {
-        type: "lowercase",
-        message: "Your password must have at least one Lowercase Character",
-      });
-    }
-    // Check at least one digit
-    else if (!/^(?=.*[0-9]).*$/.test(data.password)) {
-      setError("password", {
-        type: "digit",
-        message: "Your password must contain at least one Digit",
-      });
-    }
-    // Check at least one symbol
-    else if (
-      !/^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(data.password)
-    ) {
-      setError("password", {
-        type: "symbol",
-        message: "Your password must contain at least one Special Symbol",
-      });
-    }
-    // Check Minimum 8 characters
-    else if (!/^.{10,16}$/.test(data.password)) {
-      setError("password", {
-        type: "length",
-        message: "Your password must be 10-16 Characters Long",
-      });
-    } else if (data.password !== data.confirmPassword) {
+    if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
         type: "match",
         message: "Please confirm your password",
@@ -92,7 +50,7 @@ const Registration = () => {
 
   // Loading
   if (loading || updating) {
-    return <p className="text-center text-4xl font-bold">Loading...</p>;
+    return <Loading />;
   }
 
   // Error
@@ -107,7 +65,7 @@ const Registration = () => {
     });
   }
   return (
-    <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-80px)] items-center justify-center">
+    <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div>
         <Toaster />
       </div>
@@ -130,20 +88,11 @@ const Registration = () => {
                 }`}
                 {...register("name", {
                   required: "Please enter your name",
-                  minLength: {
-                    value: 5,
-                    message: "Please enter at least 6 characters",
-                  },
                 })}
               />
               {/* Error Message */}
               {errors.name?.type === "required" && (
                 <p className="text-error text-left pt-2">
-                  {errors.name.message}
-                </p>
-              )}
-              {errors.name?.type === "minLength" && (
-                <p className="text-error text-left py-2">
                   {errors.name.message}
                 </p>
               )}
@@ -153,7 +102,7 @@ const Registration = () => {
             <div className="form-control min-w-[350px]">
               <label className="text-left pb-1">Email</label>
               <input
-                type="email"
+                type="text"
                 className={`input input-bordered w-full bg-secondary ${
                   errors.email && "input-error"
                 }`}
@@ -172,7 +121,7 @@ const Registration = () => {
                 </p>
               )}
               {errors.email?.type === "pattern" && (
-                <p className="text-danger text-left text-red-500 py-2">
+                <p className="text-left text-error py-2">
                   {errors.email.message}
                 </p>
               )}
@@ -182,12 +131,35 @@ const Registration = () => {
             <div className="form-control min-w-[350px]">
               <label className="text-left pb-1">Password</label>
               <input
-                type="text"
+                type="password"
                 className={`input input-bordered w-full bg-secondary ${
                   errors.password && "input-error"
                 }`}
                 {...register("password", {
                   required: "Please enter your password",
+                  minLength: {
+                    value: 8,
+                    message: "Your pass must have 8 characters",
+                  },
+                  validate: {
+                    whitespace: (v) =>
+                      /^\S*$/.test(v) ||
+                      "Your password must not contain whitespace",
+                    oneUpperCase: (v) =>
+                      /^(?=.*[A-Z]).*$/.test(v) ||
+                      "Your password must have at least one uppercase character",
+                    oneLowerCase: (v) =>
+                      /^(?=.*[a-z]).*$/.test(v) ||
+                      "Your password must have at least one lowercase character",
+                    oneDigit: (v) =>
+                      /^(?=.*[0-9]).*$/.test(v) ||
+                      "Your password must have at least one digit",
+                    oneSymbol: (v) =>
+                      /^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/.test(
+                        v
+                      ) ||
+                      "Your password must have at least one special symbol",
+                  },
                 })}
               />
               {/* Error Message */}
@@ -197,31 +169,31 @@ const Registration = () => {
                 </p>
               )}
               {errors.password?.type === "whitespace" && (
-                <p className="text-danger text-left text-red-500 py-2">
+                <p className="text-left text-error py-2">
                   {errors.password.message}
                 </p>
               )}
-              {errors.password?.type === "uppercase" && (
+              {errors.password?.type === "oneUpperCase" && (
                 <p className="text-error text-left py-2">
                   {errors.password.message}
                 </p>
               )}
-              {errors.password?.type === "lowercase" && (
+              {errors.password?.type === "oneLowerCase" && (
                 <p className="text-error text-left py-2">
                   {errors.password.message}
                 </p>
               )}
-              {errors.password?.type === "digit" && (
+              {errors.password?.type === "oneDigit" && (
                 <p className="text-error text-left py-2">
                   {errors.password.message}
                 </p>
               )}
-              {errors.password?.type === "symbol" && (
+              {errors.password?.type === "oneSymbol" && (
                 <p className="text-error text-left py-2">
                   {errors.password.message}
                 </p>
               )}
-              {errors.password?.type === "length" && (
+              {errors.password?.type === "minLength" && (
                 <p className="text-error text-left py-2">
                   {errors.password.message}
                 </p>
@@ -232,7 +204,7 @@ const Registration = () => {
             <div className="form-control min-w-[350px]">
               <label className="text-left pb-1">Confirm Password</label>
               <input
-                type="text"
+                type="password"
                 className={`input input-bordered w-full bg-secondary ${
                   errors.confirmPassword && "input-error"
                 }`}
