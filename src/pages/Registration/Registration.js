@@ -64,6 +64,7 @@ const Registration = () => {
       id: "update error",
     });
   }
+  // console.log(errors);
   return (
     <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div>
@@ -91,11 +92,7 @@ const Registration = () => {
                 })}
               />
               {/* Error Message */}
-              {errors.name?.type === "required" && (
-                <p className="text-error text-left pt-2">
-                  {errors.name.message}
-                </p>
-              )}
+              <p className="text-error text-left pt-2">{errors?.name?.message}</p>
             </div>
 
             {/* Email */}
@@ -115,16 +112,9 @@ const Registration = () => {
                 })}
               />
               {/* Error Message */}
-              {errors.email?.type === "required" && (
-                <p className="text-error text-left pt-2">
-                  {errors.email.message}
-                </p>
-              )}
-              {errors.email?.type === "pattern" && (
-                <p className="text-left text-error py-2">
-                  {errors.email.message}
-                </p>
-              )}
+              <p className="text-error text-left pt-2">
+                {errors?.email?.message}
+              </p>
             </div>
 
             {/* Password*/}
@@ -163,41 +153,9 @@ const Registration = () => {
                 })}
               />
               {/* Error Message */}
-              {errors.password?.type === "required" && (
-                <p className="text-error text-left pt-2">
-                  {errors.password.message}
-                </p>
-              )}
-              {errors.password?.type === "whitespace" && (
-                <p className="text-left text-error py-2">
-                  {errors.password.message}
-                </p>
-              )}
-              {errors.password?.type === "oneUpperCase" && (
-                <p className="text-error text-left py-2">
-                  {errors.password.message}
-                </p>
-              )}
-              {errors.password?.type === "oneLowerCase" && (
-                <p className="text-error text-left py-2">
-                  {errors.password.message}
-                </p>
-              )}
-              {errors.password?.type === "oneDigit" && (
-                <p className="text-error text-left py-2">
-                  {errors.password.message}
-                </p>
-              )}
-              {errors.password?.type === "oneSymbol" && (
-                <p className="text-error text-left py-2">
-                  {errors.password.message}
-                </p>
-              )}
-              {errors.password?.type === "minLength" && (
-                <p className="text-error text-left py-2">
-                  {errors.password.message}
-                </p>
-              )}
+              <p className="text-error text-left">
+                {errors?.password?.message}
+              </p>
             </div>
 
             {/* Confirm Password */}
@@ -211,11 +169,9 @@ const Registration = () => {
                 {...register("confirmPassword")}
               />
               {/* Error Message */}
-              {errors.confirmPassword?.type === "match" && (
-                <p className="text-error text-left py-2">
-                  {errors.confirmPassword.message}
-                </p>
-              )}
+              <p className="text-error text-left">
+                {errors?.confirmPassword?.message}
+              </p>
             </div>
 
             {/* Login Button */}

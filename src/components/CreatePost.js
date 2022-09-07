@@ -54,11 +54,9 @@ const CreatePost = ({ closeModal }) => {
               })}
             />
             {/* Error Message */}
-            {errors.title?.type === "required" && (
-              <p className="text-error text-left pt-2">
-                {errors.title.message}
-              </p>
-            )}
+            <p className="text-error text-left pt-2">
+              {errors?.title?.message}
+            </p>
           </div>
 
           {/* Category */}
@@ -74,11 +72,9 @@ const CreatePost = ({ closeModal }) => {
               })}
             />
             {/* Error Message */}
-            {errors.category?.type === "required" && (
-              <p className="text-error text-left pt-2">
-                {errors.category.message}
-              </p>
-            )}
+            <p className="text-error text-left pt-2">
+              {errors?.category?.message}
+            </p>
           </div>
 
           {/* Body */}
@@ -94,10 +90,9 @@ const CreatePost = ({ closeModal }) => {
               })}
             />
             {/* Error Message */}
-            {errors.body?.type === "required" && (
-              <p className="text-error text-left pt-2">{errors.body.message}</p>
-            )}
+            <p className="text-error text-left pt-2">{errors?.body?.message}</p>
           </div>
+
           {/* Submit Button */}
           <button
             type="submit"

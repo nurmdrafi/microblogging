@@ -81,16 +81,9 @@ const Login = () => {
                   })}
                 />
                 {/* Error Message */}
-                {errors.email?.type === "required" && (
-                  <p className="pt-2 text-left text-error">
-                    {errors.email.message}
-                  </p>
-                )}
-                {errors.email?.type === "pattern" && (
-                  <p className="text-danger py-2 text-left text-error">
-                    {errors.email.message}
-                  </p>
-                )}
+                <p className="pt-2 text-left text-error">
+                  {errors?.email?.message}
+                </p>
               </div>
 
               {/* Password */}
@@ -129,41 +122,9 @@ const Login = () => {
                   })}
                 />
                 {/* Error Message */}
-                {errors.password?.type === "required" && (
-                  <p className="pt-2 text-left text-error">
-                    {errors.password.message}
-                  </p>
-                )}
-                {errors.password?.type === "whitespace" && (
-                  <p className="py-2 text-left text-error">
-                    {errors.password.message}
-                  </p>
-                )}
-                {errors.password?.type === "oneUpperCase" && (
-                  <p className="py-2 text-left text-error">
-                    {errors.password.message}
-                  </p>
-                )}
-                {errors.password?.type === "oneLowerCase" && (
-                  <p className="py-2 text-left text-error">
-                    {errors.password.message}
-                  </p>
-                )}
-                {errors.password?.type === "oneDigit" && (
-                  <p className="py-2 text-left text-error">
-                    {errors.password.message}
-                  </p>
-                )}
-                {errors.password?.type === "oneSymbol" && (
-                  <p className="py-2 text-left text-error">
-                    {errors.password.message}
-                  </p>
-                )}
-                {errors.password?.type === "minLength" && (
-                  <p className="py-2 text-left text-error">
-                    {errors.password.message}
-                  </p>
-                )}
+                <p className="pt-2 text-left text-error">
+                  {errors?.password?.message}
+                </p>
               </div>
 
               {/* Login Button */}
