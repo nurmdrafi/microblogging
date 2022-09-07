@@ -13,7 +13,7 @@ const Navigation = () => {
   };
   return (
     <nav>
-      <div className="navbar bg-base-100 lg:px-16 px-12 shadow-md mb-10">
+      <div className="navbar bg-gradient-to-r from-rose-50 to-teal-50 lg:px-16 px-12">
         <div className="flex-1">
           <Link
             className="lg:text-3xl md:text-2xl font-bold text-primary"
@@ -23,11 +23,7 @@ const Navigation = () => {
           </Link>
         </div>
         <div className="flex-none gap-2 text-black">
-          {!user ? (
-            <Link to="/login" className="btn btn-primary text-white">
-              Login
-            </Link>
-          ) : (
+          {user && (
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 h-10 rounded-full shadow-md bg-secondary">
