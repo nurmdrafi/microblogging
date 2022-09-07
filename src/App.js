@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import RequireAuth from "./auth/RequireAuth";
 import Navigation from "./components/Navigation";
 import { GlobalProvider } from "./context/GlobalState";
