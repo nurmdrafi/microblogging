@@ -4,7 +4,7 @@ import { GlobalContext } from "../context/GlobalState";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../firebase.init";
 
-const CreatePost = () => {
+const CreatePost = ({ closeModal }) => {
   const [user] = useAuthState(auth);
   const { addArticle, articles } = useContext(GlobalContext);
 
@@ -99,6 +99,7 @@ const CreatePost = () => {
           </div>
           {/* Submit Button */}
           <button
+            onClick={closeModal}
             type="submit"
             className="btn btn-active btn-primary text-white uppercase min-w-[350px] max-w-screen-lg"
           >

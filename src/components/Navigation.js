@@ -26,8 +26,8 @@ const Navigation = () => {
           {user && (
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 h-10 rounded-full shadow-md bg-secondary">
-                  <span className="text-2xl pt-0.5 flex justify-center items-center">
+                <div className="w-10 h-10 rounded-full shadow-md bg-primary">
+                  <span className="text-2xl pt-1 flex justify-center items-center text-white">
                     {user?.displayName?.[0]}
                   </span>
                 </div>
@@ -37,7 +37,7 @@ const Navigation = () => {
                 className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <button className="btn btn-ghost" onClick={logout}>
+                  <button className="btn btn-primary text-white" onClick={logout}>
                     Sign Out
                   </button>
                 </li>

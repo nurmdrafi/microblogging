@@ -94,11 +94,11 @@ const Login = () => {
     });
   }
   return (
-    <div className="flex justify-center items-center">
+    <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-80px)] items-center justify-center">
       <div>
         <Toaster />
       </div>
-      <div className="my-8 flex min-h-[calc(100vh-200px)] items-center justify-center">
+      <div>
         <div className="card w-96 bg-base-100 drop-shadow-lg">
           <div className="card-body items-center text-center">
             <h2 className="card-title text-primary">Login</h2>

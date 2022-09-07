@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const Notfound = () => {
   return (
-    <div className="mx-auto w-96 h-screen flex justify-center items-center">
-      <div className="flex flex-col gap-3 text-black border">
-        <p className="text-red-600 font-bold text-2xl">ERROR 404</p>
+    <div className=" bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-80px)] items-center justify-center">
+      <div className="flex flex-col gap-3 text-black">
+        <p className="text-red-600 font-bold text-3xl">ERROR 404</p>
         <h2 className="text-xl">
           Oops! The page you're <br /> looking for is'nt here.
         </h2>

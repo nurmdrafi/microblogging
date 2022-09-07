@@ -91,13 +91,13 @@ const Article = ({ article }) => {
   };
   // console.log(articles)
   return (
-    <div className="card container lg:px-10 bg-base-100 mx-auto my-10 shadow-md">
-      <div className="card-body">
+    <div className="card mx-10 mb-10 bg-base-100 shadow-md">
+      <div className="card-body flex-grow-0">
         <div className="flex justify-between items-center">
           {/* Title */}
-          <h2 className="card-title text-primary text-2xl font-extrabold uppercase break-words">
+          <span className="card-title text-primary text-2xl font-extrabold uppercase break-words">
             {article.title}
-          </h2>
+          </span>
           {/* Category */}
           <span className="badge badge-secondary capitalize">
             {article.category}
@@ -108,21 +108,25 @@ const Article = ({ article }) => {
           {article.userName}
         </h2>
         {/* Body */}
-        <p className="text-black capitalize">{article.body}</p>
+        <p className="text-black capitalize flex-grow-0">{article.body}</p>
         <span>Last Updated: {article.time}</span>
 
         {/* upvote & downvote */}
         <div className="flex justify-start items-center text-black my-2">
           <div className="flex items-center">
             <AiFillLike
-              className={`text-2xl cursor-pointer ${upVoteCurrentUser && "text-primary"}`}
+              className={`text-2xl cursor-pointer ${
+                upVoteCurrentUser && "text-primary"
+              }`}
               onClick={handleUpVote}
             />{" "}
             <span className="ml-1">{article.upVote}</span>
           </div>
           <div className="flex items-center">
             <AiFillDislike
-              className={`text-2xl cursor-pointer ml-6 ${downVoteCurrentUser && "text-primary"}`}
+              className={`text-2xl cursor-pointer ml-6 ${
+                downVoteCurrentUser && "text-primary"
+              }`}
               onClick={handleDownVote}
             />
             <span className="ml-1">{article.downVote}</span>
@@ -152,7 +156,7 @@ const Article = ({ article }) => {
           {article.comments.map((comment) => (
             <div key={comment.id} className="flex">
               {/* avatar */}
-              <span className="w-12 h-12 bg-primary text-white text-3xl flex justify-center items-center uppercase mr-2">
+              <span className="w-12 h-12 bg-primary text-white text-2xl font-bold flex justify-center items-center uppercase mr-2">
                 {comment.user[0]}
               </span>
               {/* comment */}

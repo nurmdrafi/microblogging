@@ -7,7 +7,7 @@ export const ArticleList = () => {
   const { articles } = useContext(GlobalContext);
 
   return (
-    <div className="bg-white">
+    <div className="columns-1 md:columns-2 mt-16 lg:px-10 px-5 ">
       {articles.length > 0 ? (
         <>
           {articles.map((article) => (

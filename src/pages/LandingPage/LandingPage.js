@@ -17,11 +17,11 @@ const LandingPage = () => {
           We can write anything...
         </h1>
         <div className="flex justify-center gap-5 mt-5">
-          <Link to="/login" className="btn btn-primary btn-outline ">
-            Login
+          <Link to="/login">
+            <button className="btn btn-primary btn-outline ">Login</button>
           </Link>
-          <Link to="/registration" className="btn btn-primary btn-outline">
-            Register
+          <Link to="/registration">
+            <button className="btn btn-primary btn-outline">Register</button>
           </Link>
         </div>
       </div>

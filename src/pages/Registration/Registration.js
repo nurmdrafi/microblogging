@@ -107,7 +107,7 @@ const Registration = () => {
     });
   }
   return (
-    <div className="flex justify-center items-center">
+    <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-80px)] items-center justify-center">
       <div>
         <Toaster />
       </div>
