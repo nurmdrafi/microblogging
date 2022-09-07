@@ -17,7 +17,7 @@ const LandingPage = () => {
     <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div>
         <h1 className="text-primary font-bold text-center text-7xl">
-          We can write anything...
+          You can write anything...
         </h1>
         <div className="flex justify-center gap-5 mt-5">
           <Link to="/login">
