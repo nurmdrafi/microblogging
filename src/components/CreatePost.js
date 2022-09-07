@@ -32,6 +32,7 @@ const CreatePost = ({ closeModal }) => {
     };
     addArticle(newPost);
     reset();
+    closeModal();
   };
   return (
     <div className="flex justify-center mx-auto container bg-white">
@@ -99,7 +100,6 @@ const CreatePost = ({ closeModal }) => {
           </div>
           {/* Submit Button */}
           <button
-            onClick={closeModal}
             type="submit"
             className="btn btn-active btn-primary text-white uppercase min-w-[350px] max-w-screen-lg"
           >

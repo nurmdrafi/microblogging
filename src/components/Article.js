@@ -9,10 +9,9 @@ const Article = ({ article }) => {
   const [text, setText] = useState("");
   const { updateArticle } = useContext(GlobalContext);
   const [focus, setFocus] = useState(false);
-  const upVoteCurrentUser = article.upVoteUsers.includes(user?.email);
-  const downVoteCurrentUser = article.downVoteUsers.includes(user?.email);
 
   // Up Vote Functionality
+  const upVoteCurrentUser = article.upVoteUsers.includes(user?.email);
   const [statusUpVote, setStatusUpVote] = useState(false);
   const upVoteUsers = [...article.upVoteUsers, user?.email];
   const excludeEmailUpVote = article.upVoteUsers.filter(
@@ -20,6 +19,7 @@ const Article = ({ article }) => {
   );
 
   // Down Vote Functionality
+  const downVoteCurrentUser = article.downVoteUsers.includes(user?.email);
   const [statusDownVote, setStatusDownVote] = useState(false);
   const downVoteUsers = [...article.downVoteUsers, user?.email];
   const excludeEmailDownVote = article.downVoteUsers.filter(
@@ -28,43 +28,65 @@ const Article = ({ article }) => {
 
   const handleUpVote = () => {
     if (!upVoteCurrentUser && !statusUpVote) {
-      setStatusUpVote(true);
-      const updatedVoteCount = {
+      const updatedArticle = {
         ...article,
         upVote: article?.upVote + 1,
         upVoteUsers,
       };
-      updateArticle(updatedVoteCount);
+      updateArticle(updatedArticle);
+      setStatusUpVote(true);
     } else if (upVoteCurrentUser && statusUpVote) {
-      setStatusUpVote(false);
-
-      const updatedVoteCount = {
+      const updatedArticle = {
         ...article,
         upVote: article?.upVote - 1,
         upVoteUsers: excludeEmailUpVote,
       };
-      updateArticle(updatedVoteCount);
+      updateArticle(updatedArticle);
+      setStatusUpVote(false);
+    }
+    if (downVoteCurrentUser && statusDownVote && !statusUpVote) {
+      const updatedArticle = {
+        ...article,
+        downVote: article?.downVote - 1,
+        downVoteUsers: excludeEmailDownVote,
+        upVote: article?.upVote + 1,
+        upVoteUsers,
+      };
+      updateArticle(updatedArticle);
+      setStatusDownVote(false);
+      setStatusUpVote(true);
     }
   };
 
   const handleDownVote = () => {
     if (!downVoteCurrentUser && !statusDownVote) {
-      setStatusDownVote(true);
-      const updatedVoteCount = {
+      const updatedArticle = {
         ...article,
         downVote: article?.downVote + 1,
         downVoteUsers,
       };
-      updateArticle(updatedVoteCount);
+      updateArticle(updatedArticle);
+      setStatusDownVote(true);
     } else if (downVoteCurrentUser && statusDownVote) {
-      setStatusDownVote(false);
-
-      const updatedVoteCount = {
+      const updatedArticle = {
         ...article,
         downVote: article?.downVote - 1,
         downVoteUsers: excludeEmailDownVote,
       };
-      updateArticle(updatedVoteCount);
+      updateArticle(updatedArticle);
+      setStatusDownVote(false);
+    }
+    if (upVoteCurrentUser && statusUpVote && !statusDownVote) {
+      const updatedArticle = {
+        ...article,
+        upVote: article?.upVote - 1,
+        upVoteUsers: excludeEmailUpVote,
+        downVote: article?.downVote + 1,
+        downVoteUsers,
+      };
+      updateArticle(updatedArticle);
+      setStatusUpVote(false);
+      setStatusDownVote(true);
     }
   };
 
