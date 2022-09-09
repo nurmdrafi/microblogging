@@ -1,29 +1,30 @@
 import React, { useState, useContext } from "react";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { GlobalContext } from "../context/GlobalState";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useUserAuth } from "../context/UserAuthContext";
+
 import auth from "../firebase.init";
 
 const Article = ({ article }) => {
-  const [user] = useAuthState(auth);
+  const {authUser} = useUserAuth()
   const [text, setText] = useState("");
   const { updateArticle } = useContext(GlobalContext);
   const [focus, setFocus] = useState(false);
 
   // Up Vote Functionality
-  const upVoteCurrentUser = article.upVoteUsers.includes(user?.email);
+  const upVoteCurrentUser = article.upVoteUsers.includes(authUser?.email);
   const [statusUpVote, setStatusUpVote] = useState(false);
-  const upVoteUsers = [...article.upVoteUsers, user?.email];
+  const upVoteUsers = [...article.upVoteUsers, authUser?.email];
   const excludeEmailUpVote = article.upVoteUsers.filter(
-    (email) => email !== user?.email
+    (email) => email !== authUser?.email
   );
 
   // Down Vote Functionality
-  const downVoteCurrentUser = article.downVoteUsers.includes(user?.email);
+  const downVoteCurrentUser = article.downVoteUsers.includes(authUser?.email);
   const [statusDownVote, setStatusDownVote] = useState(false);
-  const downVoteUsers = [...article.downVoteUsers, user?.email];
+  const downVoteUsers = [...article.downVoteUsers, authUser?.email];
   const excludeEmailDownVote = article.downVoteUsers.filter(
-    (email) => email !== user?.email
+    (email) => email !== authUser?.email
   );
 
   const handleUpVote = () => {
@@ -97,7 +98,7 @@ const Article = ({ article }) => {
       if (text) {
         const comment = {
           id: article.comments.length + 1,
-          user: user?.displayName,
+          user: authUser?.displayName,
           text: text,
         };
 

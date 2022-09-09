@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import auth from "../../firebase.init";
-import {
-  useCreateUserWithEmailAndPassword,
-  useUpdateProfile,
-} from "react-firebase-hooks/auth";
 import toast, { Toaster } from "react-hot-toast";
 import Loading from "../../components/Loading";
+import { useUserAuth } from "../../context/UserAuthContext";
+import { useUpdateProfile } from 'react-firebase-hooks/auth';
+
+import auth from "../../firebase.init";
 
 const Registration = () => {
+  //
+  const { signUp } = useUserAuth();
+  const [signUpError, setSignUpError] = useState("");
+  const [updateProfile, updating, error] = useUpdateProfile(auth);
   const {
     register,
     handleSubmit,
@@ -18,15 +21,7 @@ const Registration = () => {
     reset,
   } = useForm();
 
-  // Navigate
   const navigate = useNavigate();
-
-  // Create User With Email and Password
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
-
-  // Update Profile
-  const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
   // Handle Registration
   const handleRegistration = async (data) => {
@@ -36,12 +31,18 @@ const Registration = () => {
         message: "Please confirm your password",
       });
     } else {
-      await createUserWithEmailAndPassword(data.email, data.password);
-      await updateProfile({ displayName: data.name });
-      reset();
+      try {
+        await signUp(data.email, data.password);
+        await updateProfile({ displayName: data.name });
+        navigate("/login");
+      } catch (err) {
+        console.log(err);
+      }
+      // reset();
     }
   };
-  // Navigate
+  console.log(error, "updating error");
+  /*   // Navigate
   useEffect(() => {
     if (user) {
       navigate("/home");
@@ -64,7 +65,7 @@ const Registration = () => {
       id: "update error",
     });
   }
-  // console.log(errors);
+  // console.log(errors); */
   return (
     <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div>
@@ -92,7 +93,9 @@ const Registration = () => {
                 })}
               />
               {/* Error Message */}
-              <p className="text-error text-left pt-2">{errors?.name?.message}</p>
+              <p className="text-error text-left pt-2">
+                {errors?.name?.message}
+              </p>
             </div>
 
             {/* Email */}

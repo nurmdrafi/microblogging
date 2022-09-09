@@ -21,9 +21,9 @@ const appReducer = (state, action) => {
         articles: updatedArticles,
       };
 
-
-    default:
-      return state;
+    default: {
+      throw new Error(`Unsupported action type: ${action.type}`);
+    }
   }
 };
 export default appReducer;

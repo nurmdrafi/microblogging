@@ -1,14 +1,13 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "../firebase.init";
+import { useUserAuth } from "../context/UserAuthContext";
 
 const Navigation = () => {
-  const [user] = useAuthState(auth);
+  const { authUser } = useUserAuth();
   const navigate = useNavigate();
   const logout = () => {
-    signOut(auth);
+    // signOut(auth);
     navigate("/login");
   };
   return (
@@ -23,12 +22,12 @@ const Navigation = () => {
           </Link>
         </div>
         <div className="flex-none gap-2 text-black">
-          {user && (
+          {authUser && (
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 h-10 rounded-full shadow-md bg-primary">
                   <span className="text-2xl pt-1 flex justify-center items-center text-white">
-                    {user?.displayName?.[0]}
+                    {authUser?.displayName?.[0]}
                   </span>
                 </div>
               </label>
@@ -37,7 +36,10 @@ const Navigation = () => {
                 className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <button className="btn btn-primary text-white" onClick={logout}>
+                  <button
+                    className="btn btn-primary text-white"
+                    onClick={logout}
+                  >
                     Sign Out
                   </button>
                 </li>

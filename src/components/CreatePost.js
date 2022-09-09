@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { GlobalContext } from "../context/GlobalState";
-import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "../firebase.init";
+import { useUserAuth } from "../context/UserAuthContext";
 
 const CreatePost = ({ closeModal }) => {
-  const [user] = useAuthState(auth);
+  const { authUser } = useUserAuth();
   const { addArticle, articles } = useContext(GlobalContext);
 
   const {
@@ -27,8 +26,8 @@ const CreatePost = ({ closeModal }) => {
       upVoteUsers: [],
       downVote: 0,
       downVoteUsers: [],
-      email: user?.email,
-      userName: user?.displayName,
+      email: authUser?.email,
+      userName: authUser?.displayName,
     };
     addArticle(newPost);
     reset();

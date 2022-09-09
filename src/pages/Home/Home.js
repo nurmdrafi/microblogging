@@ -3,8 +3,11 @@ import { ArticleList } from "../../components/ArticleList";
 import CreatePost from "../../components/CreatePost";
 import Modal from "react-modal";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useUserAuth } from "../../context/UserAuthContext";
 
 const Home = () => {
+  const { userAuth } = useUserAuth();
+  console.log(userAuth);
   // Modal
   const customStyles = {
     content: {
