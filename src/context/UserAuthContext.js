@@ -2,11 +2,11 @@ import React, {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import {
   createUserWithEmailAndPassword,
+  updateProfile,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
@@ -15,17 +15,19 @@ import {
 } from "firebase/auth";
 
 import auth from "../firebase.init";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const UserAuthContext = createContext();
 
 export const UserAuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  // const value = useMemo(() => [authUser, setAuthUser], [authUser]);
 
   function signUp(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
+  }
+  function updateDisplayName(name){
+    return updateProfile(authUser?.auth?.currentUser, {displayName: name})
   }
 
   function logIn(email, password) {
@@ -42,14 +44,16 @@ export const UserAuthContextProvider = ({ children }) => {
   }
 
   const navigate = useNavigate();
+  
+  /* causes issue inside useEffect
   const location = useLocation();
-  const redirectPath = location.state?.path || "/home";
+  const redirectPath = location.state?.path || "/home"; */
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setAuthUser(currentUser);
-        navigate(redirectPath, { replace: true });
+        navigate("/home");
       } else {
         setAuthUser({});
       }
@@ -67,6 +71,7 @@ export const UserAuthContextProvider = ({ children }) => {
         isLoading,
         setIsLoading,
         signUp,
+        updateDisplayName,
         logIn,
         logOut,
         googleSignIn,
@@ -77,6 +82,13 @@ export const UserAuthContextProvider = ({ children }) => {
   );
 };
 
-export const useUserAuth = () => {
-  return useContext(UserAuthContext);
+const useUserAuth = () => {
+  const context = useContext(UserAuthContext);
+
+  if(!context){
+    throw Error("useUserAuth must be used within a UserAuthContextProvider")
+  }
+  return context;
 };
+
+export default useUserAuth;

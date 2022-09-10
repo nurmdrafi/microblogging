@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import Loading from "../../components/Loading";
-import { useUserAuth } from "../../context/UserAuthContext";
+import useUserAuth from "../../context/UserAuthContext";
+import GoogleButton from "react-google-button";
 
 const Login = () => {
   const {
@@ -13,22 +14,42 @@ const Login = () => {
     reset,
   } = useForm();
 
-  const { logIn, isLoading, setIsLoading} = useUserAuth();
+
+  const { logIn, isLoading, setIsLoading, googleSignIn } = useUserAuth();
 
   // handle login
   const handleLogin = async (data) => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       await logIn(data.email, data.password);
       reset();
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (err) {
-      console.log(err);
+      setIsLoading(false);
+      toast.error(err.message, {
+        id: "logIn error",
+      });
     }
   };
 
-  if(isLoading){
-    return <Loading/>
+  // handleGoogleSignIn
+  const handleGoogleSignIn = async () => {
+    try {
+      setIsLoading(true);
+      await googleSignIn();
+      
+      setIsLoading(false);
+
+    } catch (err) {
+      setIsLoading(false);
+      toast.error(err.message, {
+        id: "googleLogIn error",
+      });
+    }
+  };
+
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
@@ -124,6 +145,21 @@ const Login = () => {
               Create New Account
             </Link>
           </p>
+
+          <div className="d-flex align-items-center my-1">
+            <div
+              style={{ height: "1px" }}
+              className="bg-secondary w-50 opacity-50"
+            ></div>
+            <p className="mt-2 px-2 opacity-75 text-black">OR</p>
+            <div
+              style={{ height: "1px" }}
+              className="bg-secondary w-50 opacity-50"
+            ></div>
+          </div>
+          <GoogleButton
+            onClick={handleGoogleSignIn}
+          />
         </div>
       </div>
     </div>

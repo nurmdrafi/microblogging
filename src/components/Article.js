@@ -1,9 +1,8 @@
 import React, { useState, useContext } from "react";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { GlobalContext } from "../context/GlobalState";
-import { useUserAuth } from "../context/UserAuthContext";
+import  useUserAuth from "../context/UserAuthContext";
 
-import auth from "../firebase.init";
 
 const Article = ({ article }) => {
   const {authUser} = useUserAuth()

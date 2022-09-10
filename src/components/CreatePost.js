@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { GlobalContext } from "../context/GlobalState";
-import { useUserAuth } from "../context/UserAuthContext";
+import useUserAuth from "../context/UserAuthContext";
 
 const CreatePost = ({ closeModal }) => {
   const { authUser } = useUserAuth();

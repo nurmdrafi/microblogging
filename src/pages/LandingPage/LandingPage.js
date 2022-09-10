@@ -1,19 +1,7 @@
-import React, { useEffect } from "react";
-
-import { Link, useNavigate } from "react-router-dom";
-import { useUserAuth } from "../../context/UserAuthContext";
-import auth from "../../firebase.init";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const LandingPage = () => {
-  const {authUser} = useUserAuth()
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (authUser) {
-      navigate("/home");
-    }
-  }, [authUser, navigate]);
-
   return (
     <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div>

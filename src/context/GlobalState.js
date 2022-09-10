@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import appReducer from "./AppReducer";
 
 const initialState = {
@@ -41,8 +41,6 @@ export const GlobalContext = createContext(initialState);
 
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
-  const value = useMemo(() => [state, dispatch], [state]);
-  // console.log(value[0].articles);
 
   function addArticle(article) {
     dispatch({
@@ -61,8 +59,7 @@ export const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        articles: value[0].articles,
-        // articles: state.articles,
+        articles: state.articles,
         addArticle,
         updateArticle,
       }}
@@ -72,25 +69,12 @@ export const GlobalProvider = ({ children }) => {
   );
 };
 
-export const useArticle = () =>{
-  return useContext(GlobalContext);
-}
-
-/* export const useAddArticle = () => {
+const useArticle = () => {
   const context = useContext(GlobalContext);
   if (!context) {
-    throw new Error(
-      `useAddArticle must be used within a GlobalContextProvider`
-    );
+    throw Error("useArticle must be used within a GlobalContextProvider");
   }
-  const [state, dispatch] = context;
-
-  const addArticle = (article) =>
-    dispatch({ type: "UPDATE_ARTICLE", payload: article });
-  return {
-    state,
-    dispatch,
-    addArticle,
-  };
+  return context;
 };
- */
+
+export default useArticle;

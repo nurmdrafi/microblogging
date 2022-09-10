@@ -1,29 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserAuth } from "../context/UserAuthContext";
+import useUserAuth from "../context/UserAuthContext";
 import toast, { Toaster } from "react-hot-toast";
-import Loading from "./Loading";
 
 const Navigation = () => {
-  const { authUser, logOut, isLoading, setIsLoading } = useUserAuth();
+  const { authUser, logOut } = useUserAuth();
   const navigate = useNavigate();
-  
 
   const handleLogOut = () => {
     try {
-      // setIsLoading(true);
       logOut();
     } catch (err) {
       toast.error(err.message, {
         id: "logOut error",
       });
     }
-    // setIsLoading(false);
     navigate("/login");
   };
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
 
   return (
     <nav>
@@ -39,11 +32,19 @@ const Navigation = () => {
             Microblogging App
           </Link>
         </div>
+
         <div className="flex-none gap-2 text-black">
           {authUser?.auth?.currentUser && (
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 h-10 rounded-full shadow-md bg-primary">
+                  {authUser?.photoURL && (
+                    <img
+                      src={authUser?.photoURL}
+                      alt=""
+                      className="w-10 h-10"
+                    />
+                  )}
                   <span className="text-2xl pt-1 flex justify-center items-center text-white">
                     {authUser?.displayName?.[0]}
                   </span>

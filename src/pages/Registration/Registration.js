@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import Loading from "../../components/Loading";
-import { useUserAuth } from "../../context/UserAuthContext";
+import useUserAuth from "../../context/UserAuthContext";
 import { updateProfile } from "firebase/auth";
 import auth from "../../firebase.init";
 
 const Registration = () => {
-  const { signUp, isLoading, setIsLoading } = useUserAuth();
+  const { signUp, updateDisplayName, isLoading, setIsLoading } = useUserAuth();
   const {
     register,
     handleSubmit,
@@ -29,12 +29,13 @@ const Registration = () => {
         setIsLoading(true);
         await signUp(data.email, data.password);
       } catch (err) {
+        setIsLoading(false);
         toast.error(err.message, {
           id: "signUp error",
         });
       }
       try {
-        await updateProfile(auth.currentUser, { displayName: data.name });
+        await updateDisplayName(data.name);
         reset();
         setIsLoading(false);
       } catch (err) {
