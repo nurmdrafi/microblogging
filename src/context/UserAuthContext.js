@@ -15,16 +15,17 @@ import {
 } from "firebase/auth";
 
 import auth from "../firebase.init";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const UserAuthContext = createContext();
 
 export const UserAuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState({});
-  //   const value = useMemo(() => [authUser, setAuthUser], [authUser]);
-  //   console.log(value)
+  const [isLoading, setIsLoading] = useState(false);
+  // const value = useMemo(() => [authUser, setAuthUser], [authUser]);
 
-  async function signUp  (email, password) {
-     return createUserWithEmailAndPassword(auth, email, password)
+  function signUp(email, password) {
+    return createUserWithEmailAndPassword(auth, email, password);
   }
 
   function logIn(email, password) {
@@ -32,7 +33,7 @@ export const UserAuthContextProvider = ({ children }) => {
   }
 
   function logOut() {
-    return signOut(auth);
+    return signOut(auth).then(() => setAuthUser({}));
   }
 
   function googleSignIn() {
@@ -40,9 +41,18 @@ export const UserAuthContextProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   }
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const redirectPath = location.state?.path || "/home";
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setAuthUser(currentUser);
+      if (currentUser) {
+        setAuthUser(currentUser);
+        navigate(redirectPath, { replace: true });
+      } else {
+        setAuthUser({});
+      }
     });
     return () => {
       unsubscribe();
@@ -51,7 +61,16 @@ export const UserAuthContextProvider = ({ children }) => {
 
   return (
     <UserAuthContext.Provider
-      value={{ authUser, signUp, logIn, logOut, googleSignIn }}
+      value={{
+        authUser,
+        setAuthUser,
+        isLoading,
+        setIsLoading,
+        signUp,
+        logIn,
+        logOut,
+        googleSignIn,
+      }}
     >
       {children}
     </UserAuthContext.Provider>

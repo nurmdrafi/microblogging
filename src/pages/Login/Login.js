@@ -13,47 +13,24 @@ const Login = () => {
     reset,
   } = useForm();
 
-  // Navigate
-  const navigate = useNavigate();
-  let location = useLocation();
-  let from = location.state?.from?.pathname || "/";
-
-  // logIn in with email and password
-  const { logIn } = useUserAuth();
-
-  // current user
-  const { authUser } = useUserAuth();
+  const { logIn, isLoading, setIsLoading} = useUserAuth();
 
   // handle login
   const handleLogin = async (data) => {
     try {
+      setIsLoading(true)
       await logIn(data.email, data.password);
       reset();
-      navigate("/home");
+      setIsLoading(false)
     } catch (err) {
       console.log(err);
     }
   };
-  // console.log(errors);
 
-  /*  // Navigate
-  useEffect(() => {
-    if (authUser) {
-      navigate(from, { replace: true });
-    }
-  }, [from, navigate, authUser]);
-
-  // Loading
-  if (loading) {
-    return <Loading />;
+  if(isLoading){
+    return <Loading/>
   }
 
-  // Error
-  if (error) {
-    toast.error(error.message, {
-      id: "signin error",
-    });
-  } */
   return (
     <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div>

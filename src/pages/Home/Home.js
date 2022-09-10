@@ -6,8 +6,8 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useUserAuth } from "../../context/UserAuthContext";
 
 const Home = () => {
-  const { userAuth } = useUserAuth();
-  console.log(userAuth);
+  const { authUser } = useUserAuth();
+  // console.log(userAuth);
   // Modal
   const customStyles = {
     content: {

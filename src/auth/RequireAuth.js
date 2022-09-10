@@ -1,21 +1,16 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
-// import Loading from "../components/Loading";
 
 const RequireAuth = ({ children }) => {
-  const { authUser } = useUserAuth();
-  console.log(authUser)
+  const { authUser} = useUserAuth();
   const location = useLocation();
 
-  // if (loading) {
-  //   return <Loading/>;
-  // }
-
-  if (!authUser) {
-    return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
+  if (authUser?.auth?.currentUser) {
+    return children;
+  } else {
+    return <Navigate to="/login" state={{path: location.pathname}}></Navigate>;
   }
-  return children;
 };
 
 export default RequireAuth;

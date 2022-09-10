@@ -1,18 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import Loading from "../../components/Loading";
 import { useUserAuth } from "../../context/UserAuthContext";
-import { useUpdateProfile } from 'react-firebase-hooks/auth';
-
+import { updateProfile } from "firebase/auth";
 import auth from "../../firebase.init";
 
 const Registration = () => {
-  //
-  const { signUp } = useUserAuth();
-  const [signUpError, setSignUpError] = useState("");
-  const [updateProfile, updating, error] = useUpdateProfile(auth);
+  const { signUp, isLoading, setIsLoading } = useUserAuth();
   const {
     register,
     handleSubmit,
@@ -20,8 +16,6 @@ const Registration = () => {
     formState: { errors },
     reset,
   } = useForm();
-
-  const navigate = useNavigate();
 
   // Handle Registration
   const handleRegistration = async (data) => {
@@ -32,44 +26,31 @@ const Registration = () => {
       });
     } else {
       try {
+        setIsLoading(true);
         await signUp(data.email, data.password);
-        await updateProfile({ displayName: data.name });
-        navigate("/login");
       } catch (err) {
-        console.log(err);
+        toast.error(err.message, {
+          id: "signUp error",
+        });
       }
-      // reset();
+      try {
+        await updateProfile(auth.currentUser, { displayName: data.name });
+        reset();
+        setIsLoading(false);
+      } catch (err) {
+        toast.error(err.message, {
+          id: "updateProfile error",
+        });
+      }
     }
   };
-  console.log(error, "updating error");
-  /*   // Navigate
-  useEffect(() => {
-    if (user) {
-      navigate("/home");
-    }
-  }, [user, navigate]);
-
-  // Loading
-  if (loading || updating) {
+  if (isLoading) {
     return <Loading />;
   }
-
-  // Error
-  if (error) {
-    toast.error(error.message, {
-      id: "registration error",
-    });
-  }
-  if (updateError) {
-    toast.error(updateError.message, {
-      id: "update error",
-    });
-  }
-  // console.log(errors); */
   return (
     <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div>
-        <Toaster />
+        <Toaster position="top-center" reverseOrder={true} />
       </div>
       <div className="card w-96 bg-base-100 drop-shadow-lg">
         <div className="card-body items-center text-center">

@@ -1,17 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
 import { useUserAuth } from "../context/UserAuthContext";
+import toast, { Toaster } from "react-hot-toast";
+import Loading from "./Loading";
 
 const Navigation = () => {
-  const { authUser } = useUserAuth();
+  const { authUser, logOut, isLoading, setIsLoading } = useUserAuth();
   const navigate = useNavigate();
-  const logout = () => {
-    // signOut(auth);
+  
+
+  const handleLogOut = () => {
+    try {
+      // setIsLoading(true);
+      logOut();
+    } catch (err) {
+      toast.error(err.message, {
+        id: "logOut error",
+      });
+    }
+    // setIsLoading(false);
     navigate("/login");
   };
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
+
   return (
     <nav>
+      <div>
+        <Toaster position="top-center" reverseOrder={true} />
+      </div>
       <div className="navbar bg-gradient-to-r from-rose-50 to-teal-50 lg:px-16 px-12">
         <div className="flex-1">
           <Link
@@ -22,7 +40,7 @@ const Navigation = () => {
           </Link>
         </div>
         <div className="flex-none gap-2 text-black">
-          {authUser && (
+          {authUser?.auth?.currentUser && (
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 h-10 rounded-full shadow-md bg-primary">
@@ -38,7 +56,7 @@ const Navigation = () => {
                 <li>
                   <button
                     className="btn btn-primary text-white"
-                    onClick={logout}
+                    onClick={handleLogOut}
                   >
                     Sign Out
                   </button>
