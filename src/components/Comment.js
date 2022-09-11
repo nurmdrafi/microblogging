@@ -1,4 +1,5 @@
-import React, { useState  } from "react";
+import React, { useState } from "react";
+import { AiFillHeart } from "react-icons/ai";
 import useArticleContext from "../context/ArticleContext";
 import useUserAuth from "../context/UserAuthContext";
 
@@ -8,7 +9,6 @@ const Comment = ({ article }) => {
   const [text, setText] = useState("");
   const [focus, setFocus] = useState(false);
 
-  console.log(authUser);
   const handleSubmitComment = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -17,6 +17,7 @@ const Comment = ({ article }) => {
         const comment = {
           id: article?.comments?.length + 1,
           user: authUser?.displayName,
+          email: authUser?.email,
           text: text,
         };
 
@@ -33,7 +34,7 @@ const Comment = ({ article }) => {
   return (
     <div>
       <div className="flex flex-col">
-        {/* Write Comment */}
+        {/* Write Comments */}
         <input
           className="input bg-secondary text-black"
           type="text"
@@ -42,7 +43,7 @@ const Comment = ({ article }) => {
           onKeyDown={handleSubmitComment}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
-          placeholder="Write a public comment..."
+          placeholder="Write a comment..."
         />
         {focus && (
           <span className="ml-auto">
@@ -56,20 +57,41 @@ const Comment = ({ article }) => {
       {/* Comments */}
       <div className="mt-2">
         {article.comments.map((comment) => (
-          <div key={comment?.id} className="flex">
+          <div key={comment?.id} className="grid grid-cols-8">
             {/* avatar */}
-            <span className="w-12 h-12 bg-primary text-white text-2xl font-bold flex justify-center items-center uppercase mr-2">
+
+            <span className=" bg-primary text-white text-xl md:text-2xl font-bold flex justify-center items-center uppercase mr-2 h-12">
               {comment?.user[0]}
             </span>
+
             {/* comment */}
-            <p className="p-3 mb-2 bg-secondary text-gray-600 break-words rounded-sm">
-              {" "}
-              <span className="text-primary capitalize">
-                {comment?.user}
-              </span>{" "}
-              <br />
-              {comment?.text}
-            </p>
+            <div className="col-span-7 mb-3">
+              <p className="p-3 bg-secondary dark:bg-slate-700 text-gray-600 dark:text-white break-words rounded-sm">
+                {" "}
+                <span className="text-primary capitalize">
+                  {comment?.user}
+                </span>{" "}
+                <br />
+                {comment?.text}
+              </p>
+              {/* love, edit, delete */}
+              <div className="flex justify-start items-center gap-3 text-black dark:text-white">
+                {/* love */}
+                <div className="flex justify-start items-center">
+                  <AiFillHeart className="text-black dark:text-white text-xl cursor-pointer" />{" "}
+                  <span className="ml-1">0</span>
+                </div>
+                {/* edit */}
+
+                {/* delete */}
+                {authUser?.email === comment?.email && (
+                  <div className="inline-block">
+                    <span className="cursor-pointer mr-3">Edit</span>
+                    <span className="cursor-pointer">Delete</span>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         ))}
       </div>

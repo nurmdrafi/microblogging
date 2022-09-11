@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { BsThreeDots } from "react-icons/bs";
 import useUserAuth from "../context/UserAuthContext";
 import useArticleContext from "../context/ArticleContext";
 import Comment from "./Comment";
 
 const Article = ({ article }) => {
   const { authUser } = useUserAuth();
-  const {  upVote, downVote, updateToggleVote } =
-    useArticleContext();
+  const { upVote, downVote, updateToggleVote } = useArticleContext();
 
   // Up Vote Functionality
   const upVoteCurrentUser = article.upVoteUsers.includes(authUser?.email);
@@ -92,16 +92,14 @@ const Article = ({ article }) => {
   return (
     <div className="card mx-10 mb-10 bg-base-100 shadow-md dark:bg-slate-800 dark:shadow-md dark:shadow-slate-700">
       <div className="card-body flex-grow-0">
-        <div className="flex justify-between items-center">
-          {/* Title */}
-          <span className="card-title text-primary text-2xl font-extrabold uppercase break-words">
-            {article.title}
-          </span>
-          {/* Category */}
-          <span className="badge badge-secondary capitalize">
-            {article.category}
-          </span>
+        <div className="flex justify-end">
+          <BsThreeDots />
         </div>
+        {/* Title */}
+        <p className="text-primary text-2xl font-extrabold uppercase break-words">
+          {article.title}
+        </p>
+
         {/* Author */}
         <h2 className="capitalize text-black dark:text-white font-bold text-lg">
           {article.userName}

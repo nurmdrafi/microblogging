@@ -9,8 +9,8 @@ const initialState = {
       time: "05/09/2022, 21:13:19",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta eius laborum voluptate hic aut doloremque officiis quasi quos explicabo molestiae!",
       comments: [
-        { id: 1, user: "admin", text: "hello" },
-        { id: 2, user: "admin", text: "world" },
+        { id: 1, user: "admin", email: "admin@admin.com", text: "hello" },
+        { id: 2, user: "admin", email: "admin@admin.com", text: "world" },
       ],
       upVote: 0,
       upVoteUsers: [],
