@@ -9,28 +9,31 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import Login from "./pages/Login/Login";
 import Notfound from "./pages/Notfound/Notfound";
 import Registration from "./pages/Registration/Registration";
+import { ThemeContextProvider } from "./context/ThemeContext";
 
 function App() {
   return (
-    <GlobalProvider>
-      <UserAuthContextProvider>
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/home"
-          element={
-            <RequireAuth>
-              <Home />
-            </RequireAuth>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="*" element={<Notfound />} />
-      </Routes>
-      </UserAuthContextProvider>
-    </GlobalProvider>
+    <ThemeContextProvider>
+      <GlobalProvider>
+        <UserAuthContextProvider>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="/home"
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="*" element={<Notfound />} />
+          </Routes>
+        </UserAuthContextProvider>
+      </GlobalProvider>
+    </ThemeContextProvider>
   );
 }
 

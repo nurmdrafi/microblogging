@@ -113,7 +113,7 @@ const Article = ({ article }) => {
   };
   // console.log(articles)
   return (
-    <div className="card mx-10 mb-10 bg-base-100 shadow-md">
+    <div className="card mx-10 mb-10 bg-base-100 shadow-md dark:bg-slate-800 dark:shadow-md dark:shadow-slate-700">
       <div className="card-body flex-grow-0">
         <div className="flex justify-between items-center">
           {/* Title */}
@@ -126,15 +126,15 @@ const Article = ({ article }) => {
           </span>
         </div>
         {/* Author */}
-        <h2 className="capitalize text-black font-bold text-lg">
+        <h2 className="capitalize text-black dark:text-white font-bold text-lg">
           {article.userName}
         </h2>
         {/* Body */}
-        <p className="text-black capitalize flex-grow-0">{article.body}</p>
+        <p className="text-black dark:text-white capitalize flex-grow-0">{article.body}</p>
         <span>Last Updated: {article.time}</span>
 
         {/* upvote & downvote */}
-        <div className="flex justify-start items-center text-black my-2">
+        <div className="flex justify-start items-center text-black dark:text-white my-2">
           <div className="flex items-center">
             <AiFillLike
               className={`text-2xl cursor-pointer ${

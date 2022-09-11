@@ -53,11 +53,11 @@ const Login = () => {
   }
 
   return (
-    <div className="bg-gradient-to-r from-rose-50 to-teal-50 flex min-h-[calc(100vh-65px)] items-center justify-center">
+    <div className="bg-gradient-to-r from-rose-50 to-teal-50 dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-900 flex min-h-[calc(100vh-65px)] items-center justify-center">
       <div>
         <Toaster />
       </div>
-      <div className="card w-96 bg-base-100 drop-shadow-lg">
+      <div className="card dark:bg-slate-800 w-96 bg-base-100 drop-shadow-lg">
         <div className="card-body items-center text-center">
           <h2 className="card-title text-primary">Login</h2>
 
@@ -68,7 +68,7 @@ const Login = () => {
           >
             {/* Email */}
             <div className="form-control min-w-[350px]">
-              <label className="text-left pb-1">Email</label>
+              <label className="text-left pb-1 dark:text-white">Email</label>
               <input
                 type="text"
                 className={`input input-bordered w-full bg-secondary ${
@@ -90,7 +90,7 @@ const Login = () => {
 
             {/* Password */}
             <div className="form-control min-w-[350px]">
-              <label className="text-left pb-1">Password</label>
+              <label className="text-left pb-1 dark:text-white">Password</label>
               <input
                 type="password"
                 className={`input input-bordered w-full bg-secondary ${
@@ -139,25 +139,15 @@ const Login = () => {
           </form>
           {/* Form End */}
 
-          <p className="text-black">
+          <p className="text-black dark:text-white">
             New to Microblogging?{" "}
             <Link to="/registration" className="text-primary">
               Create New Account
             </Link>
           </p>
-
-          <div className="d-flex align-items-center my-1">
-            <div
-              style={{ height: "1px" }}
-              className="bg-secondary w-50 opacity-50"
-            ></div>
-            <p className="mt-2 px-2 opacity-75 text-black">OR</p>
-            <div
-              style={{ height: "1px" }}
-              className="bg-secondary w-50 opacity-50"
-            ></div>
-          </div>
+          <p className="px-2 opacity-75 text-black dark:text-white">OR</p>
           <GoogleButton
+            style={{width: "100%"}}
             onClick={handleGoogleSignIn}
           />
         </div>
