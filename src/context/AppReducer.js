@@ -13,7 +13,7 @@ const appReducer = (state, action) => {
         if (article.id === updatedArticle.id) {
           return updatedArticle;
         }
-        return article;
+        return article; 
       });
 
       return {

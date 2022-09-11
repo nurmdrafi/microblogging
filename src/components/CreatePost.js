@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { GlobalContext } from "../context/GlobalState";
 import useUserAuth from "../context/UserAuthContext";
+import useArticleContext from "../context/ArticleContext";
 
 const CreatePost = ({ closeModal }) => {
   const { authUser } = useUserAuth();
-  const { addArticle, articles } = useContext(GlobalContext);
+  const { articles, addArticle } = useArticleContext();
 
   const {
     register,
@@ -15,8 +15,8 @@ const CreatePost = ({ closeModal }) => {
   } = useForm();
   let today = new Date();
   const handleCreatePost = (data) => {
-    const newPost = {
-      id: articles.length + 1,
+    const newArticle = {
+      id: articles.articles.length + 1,
       title: data.title,
       category: data.category,
       time: today.toLocaleString(),
@@ -29,7 +29,7 @@ const CreatePost = ({ closeModal }) => {
       email: authUser?.email,
       userName: authUser?.displayName,
     };
-    addArticle(newPost);
+    addArticle(newArticle);
     reset();
     closeModal();
   };
