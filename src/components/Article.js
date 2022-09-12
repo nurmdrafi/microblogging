@@ -91,6 +91,7 @@ const Article = ({ article }) => {
 
   return (
     <div className="card mx-10 mb-10 bg-base-100 shadow-md dark:bg-slate-800 dark:shadow-md dark:shadow-slate-700">
+      {/* Settings */}
       <div className="card-body flex-grow-0">
         <div className="flex justify-end">
           <BsThreeDots />

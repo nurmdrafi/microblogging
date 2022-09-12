@@ -3,14 +3,29 @@ import { createContext, useContext, useState } from "react";
 const initialState = {
   articles: [
     {
-      id: 1,
+      id: "8adf57ac-66cc-45e2-8402-85b616b42e7f",
       title: "hello1",
-      category: "test1",
-      time: "05/09/2022, 21:13:19",
+      time: "Sun, 30 May 2021 14:59:15 GMT",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta eius laborum voluptate hic aut doloremque officiis quasi quos explicabo molestiae!",
       comments: [
-        { id: 1, user: "admin", email: "admin@admin.com", text: "hello" },
-        { id: 2, user: "admin", email: "admin@admin.com", text: "world" },
+        {
+          id: "542813e9-e882-401b-967d-d6fbc1460278",
+          user: "admin",
+          email: "admin@admin.com",
+          text: "hello",
+          loveCount: 0,
+          loveVoters: [],
+          time: "Mon, 12 Sep 2022 04:11:51 GMT",
+        },
+        {
+          id: "25f818c4-9cba-4924-b67c-617d18884ec6",
+          user: "admin",
+          email: "admin@admin.com",
+          text: "world",
+          loveCount: 0,
+          loveVoters: [],
+          time: "Mon, 12 Sep 2022 04:12:09 GMT",
+        },
       ],
       upVote: 0,
       upVoteUsers: [],
@@ -20,10 +35,9 @@ const initialState = {
       userName: "admin",
     },
     {
-      id: 2,
+      id: "72eac71f-f84c-4c17-a5db-77709dd84946",
       title: "hello2",
-      category: "test2",
-      time: "05/09/2022, 21:13:30",
+      time: "Mon, 12 Sep 2022 04:12:32 GMT",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta eius laborum voluptate hic aut doloremque officiis quasi quos explicabo molestiae!",
       comments: [],
       upVote: 0,
@@ -40,6 +54,7 @@ const ArticleContext = createContext();
 
 export const ArticleContextProvider = ({ children }) => {
   const [articles, setArticles] = useState(initialState);
+  // console.log(articles)
 
   // addArticle
   function addArticle(newArticle) {
@@ -90,7 +105,13 @@ export const ArticleContextProvider = ({ children }) => {
   function updateComment() {}
 
   // loveComment
-  function loveComment() {}
+  function loveVote(article_id, updatedArticleWithLoveVote) {
+    const articleList = articles.articles.filter(
+      (article) => article.id !== article_id
+    );
+    const updatedArticles = [...articleList, updatedArticleWithLoveVote];
+    return setArticles({ articles: updatedArticles });
+  }
 
   return (
     <ArticleContext.Provider
@@ -101,6 +122,7 @@ export const ArticleContextProvider = ({ children }) => {
         upVote,
         downVote,
         updateToggleVote,
+        loveVote,
       }}
     >
       {children}

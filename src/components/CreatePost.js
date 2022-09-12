@@ -1,11 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 import useUserAuth from "../context/UserAuthContext";
 import useArticleContext from "../context/ArticleContext";
 
 const CreatePost = ({ closeModal }) => {
   const { authUser } = useUserAuth();
-  const { articles, addArticle } = useArticleContext();
+  const { addArticle } = useArticleContext();
+  const id = uuidv4();
 
   const {
     register,
@@ -13,13 +15,12 @@ const CreatePost = ({ closeModal }) => {
     reset,
     formState: { errors },
   } = useForm();
-  let today = new Date();
   const handleCreatePost = (data) => {
+    let now = new Date();
     const newArticle = {
-      id: articles.articles.length + 1,
+      id: id,
       title: data.title,
-      category: data.category,
-      time: today.toLocaleString(),
+      time: now.toUTCString(),
       body: data.body,
       comments: [],
       upVote: 0,
@@ -34,73 +35,51 @@ const CreatePost = ({ closeModal }) => {
     closeModal();
   };
   return (
-    <div className="flex justify-center mx-auto container bg-white">
-      <div className=" mx-auto items-center text-center">
-        <form
-          onSubmit={handleSubmit(handleCreatePost)}
-          className=" flex flex-col gap-3"
+    <div className="bg-white">
+      <form
+        onSubmit={handleSubmit(handleCreatePost)}
+        className=" flex flex-col gap-3 bg-gradient-to-r from-slate-50 to-gray-100   dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-800"
+      >
+        {/* Title */}
+        <div className="form-control min-w-[350px] max-w-screen-lg">
+          <input
+            type="text"
+            placeholder="Title"
+            className={`input input-bordered w-full text-black bg-secondary ${
+              errors.title && "input-error"
+            }`}
+            {...register("title", {
+              required: "Please enter your post title",
+            })}
+          />
+          {/* Error Message */}
+          <p className="text-error text-left pt-2">{errors?.title?.message}</p>
+        </div>
+
+        {/* Body */}
+        <div className="form-control min-w-[350px] max-w-screen-lg">
+          <textarea
+            type="text"
+            placeholder="Body"
+            className={`textarea textarea-bordered w-full text-black bg-secondary ${
+              errors.post && "textarea-error"
+            }`}
+            {...register("body", {
+              required: "Please write your article",
+            })}
+          />
+          {/* Error Message */}
+          <p className="text-error text-left pt-2">{errors?.body?.message}</p>
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="btn btn-active btn-primary text-white uppercase min-w-[350px] max-w-screen-lg"
         >
-          {/* Title */}
-          <div className="form-control min-w-[350px] max-w-screen-lg">
-            <input
-              type="text"
-              placeholder="Title"
-              className={`input input-bordered w-full text-black bg-secondary ${
-                errors.title && "input-error"
-              }`}
-              {...register("title", {
-                required: "Please enter your post title",
-              })}
-            />
-            {/* Error Message */}
-            <p className="text-error text-left pt-2">
-              {errors?.title?.message}
-            </p>
-          </div>
-
-          {/* Category */}
-          <div className="form-control min-w-[350px] max-w-screen-lg">
-            <input
-              type="text"
-              placeholder="Category"
-              className={`input input-bordered w-full text-black bg-secondary ${
-                errors.category && "input-error"
-              }`}
-              {...register("category", {
-                required: "Please enter your post category",
-              })}
-            />
-            {/* Error Message */}
-            <p className="text-error text-left pt-2">
-              {errors?.category?.message}
-            </p>
-          </div>
-
-          {/* Body */}
-          <div className="form-control min-w-[350px] max-w-screen-lg">
-            <textarea
-              type="text"
-              placeholder="Body"
-              className={`textarea textarea-bordered w-full text-black bg-secondary ${
-                errors.post && "textarea-error"
-              }`}
-              {...register("body", {
-                required: "Please write your article",
-              })}
-            />
-            {/* Error Message */}
-            <p className="text-error text-left pt-2">{errors?.body?.message}</p>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="btn btn-active btn-primary text-white uppercase min-w-[350px] max-w-screen-lg"
-          >
-            Submit
-          </button>
-        </form>
-      </div>
+          Submit
+        </button>
+      </form>
     </div>
   );
 };

@@ -46,13 +46,13 @@ const Home = () => {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
+        className="bg-gradient-to-r from-slate-50 to-gray-100  shadow-md dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-800 top-[50%] left-[50%] right-auto bottom-auto translate-x-[-50%] translate-y-[-50%] fixed p-5 rounded-md border-none outline-none"
         ariaHideApp={false}
         contentLabel="Create Post Modal"
       >
         <div className="flex justify-end mb-5">
           <button onClick={closeModal}>
-            <AiOutlineCloseCircle className="text-black text-2xl" />{" "}
+            <AiOutlineCloseCircle className="text-black text-2xl dark:text-white" />{" "}
           </button>
         </div>
         <CreatePost closeModal={closeModal} />
