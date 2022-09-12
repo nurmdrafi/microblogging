@@ -14,8 +14,6 @@ const Comment = ({ article }) => {
     return new Date(a.time) - new Date(b.time);
   });
 
-  const [statusLoveVote, setStatusLoveVote] = useState(false);
-
   const handleSubmitComment = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -44,26 +42,31 @@ const Comment = ({ article }) => {
   };
 
   const handleLoveVote = (id) => {
+    // returns true/false
     const currentVoter = article.comments
       .find((comment) => comment.id === id)
       .loveVoters.includes(authUser?.email);
+
+    // prev voters + current voter
     const loveVoteUsers = [
       ...article.comments.find((comment) => comment.id === id).loveVoters,
       authUser?.email,
     ];
+
+    // after unlike remove current voter from list
     const excludeEmailLoveVote = article.comments
       .find((comment) => comment.id === id)
       .loveVoters.filter((email) => email !== authUser?.email);
 
-    console.log(statusLoveVote);
-    if (!currentVoter && !statusLoveVote) {
-      console.log("clicked1");
+    if (!currentVoter) {
+      // comment with vote
       const commentWithLoveVote = {
         ...article.comments.find((comment) => comment.id === id),
         loveCount:
           article.comments.find((comment) => comment.id === id).loveCount + 1,
         loveVoters: loveVoteUsers,
       };
+
       const excludeComments = article.comments.filter(
         (comment) => comment.id !== id
       );
@@ -72,8 +75,7 @@ const Comment = ({ article }) => {
         comments: [...excludeComments, commentWithLoveVote],
       };
       loveVote(article.id, updatedArticleWithLoveVote);
-      setStatusLoveVote(true);
-    } else if (currentVoter && statusLoveVote) {
+    } else if (currentVoter) {
       console.log("clicked2");
       const commentWithLoveVote = {
         ...article.comments.find((comment) => comment.id === id),
@@ -89,10 +91,8 @@ const Comment = ({ article }) => {
         comments: [...excludeComments, commentWithLoveVote],
       };
       loveVote(article.id, updatedArticleWithLoveVote);
-      setStatusLoveVote(false);
     }
   };
-  console.log(article);
   return (
     <div>
       <div className="flex flex-col">
@@ -139,9 +139,9 @@ const Comment = ({ article }) => {
               {/* love, edit, delete */}
               <div className="flex justify-start items-center gap-3 text-black dark:text-white">
                 {/* love */}
-                <div className="flex justify-start items-center">
+                <div className="flex justify-start items-center ">
                   <AiFillHeart
-                    className="text-black dark:text-white text-xl cursor-pointer"
+                    className=" text-black text-xl cursor-pointer dark:text-white"
                     onClick={() => handleLoveVote(comment?.id)}
                   />{" "}
                   <span className="ml-1">{comment?.loveCount}</span>
