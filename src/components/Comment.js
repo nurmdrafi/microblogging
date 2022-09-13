@@ -6,7 +6,8 @@ import useUserAuth from "../context/UserAuthContext";
 
 const Comment = ({ article }) => {
   const { authUser } = useUserAuth();
-  const { addComment, loveVote } = useArticleContext();
+  const { addComment, loveVote, deleteComment } =
+    useArticleContext();
   const [text, setText] = useState("");
   const [focus, setFocus] = useState(false);
   const id = uuidv4();
@@ -14,6 +15,7 @@ const Comment = ({ article }) => {
     return new Date(a.time) - new Date(b.time);
   });
 
+  // handle submit comment
   const handleSubmitComment = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -41,6 +43,7 @@ const Comment = ({ article }) => {
     }
   };
 
+  // handle love vote
   const handleLoveVote = (id) => {
     // returns true/false
     const currentVoter = article.comments
@@ -93,6 +96,16 @@ const Comment = ({ article }) => {
       loveVote(article.id, updatedArticleWithLoveVote);
     }
   };
+
+  // handle delete comment
+  const handleDeleteComment = (comment_id) => {
+    const excludeComment = article.comments.filter(
+      (comment) => comment.id !== comment_id
+    );
+    const updatedArticle = { ...article, comments: excludeComment };
+    deleteComment(article.id, updatedArticle);
+  };
+
   return (
     <div>
       <div className="flex flex-col">
@@ -141,7 +154,10 @@ const Comment = ({ article }) => {
                 {/* love */}
                 <div className="flex justify-start items-center ">
                   <AiFillHeart
-                    className={`${comment.id} text-black text-xl cursor-pointer dark:text-white`}
+                    className={`${
+                      comment.loveVoters.includes(authUser?.email) &&
+                      "text-red-600"
+                    } text-black text-xl cursor-pointer dark:text-white`}
                     onClick={() => handleLoveVote(comment?.id)}
                   />{" "}
                   <span className="ml-1">{comment?.loveCount}</span>
@@ -153,7 +169,12 @@ const Comment = ({ article }) => {
                     {/* edit */}
                     <span className="cursor-pointer mr-3">Edit</span>
                     {/* delete */}
-                    <span className="cursor-pointer">Delete</span>
+                    <span
+                      className="cursor-pointer"
+                      onClick={() => handleDeleteComment(comment?.id)}
+                    >
+                      Delete
+                    </span>
                   </div>
                 )}
                 {/* ---PENDING--- */}

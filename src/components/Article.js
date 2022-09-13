@@ -7,7 +7,8 @@ import Comment from "./Comment";
 
 const Article = ({ article }) => {
   const { authUser } = useUserAuth();
-  const { upVote, downVote, updateToggleVote } = useArticleContext();
+  const { upVote, downVote, updateToggleVote, deleteArticle } =
+    useArticleContext();
 
   // Up Vote Functionality
   const upVoteCurrentUser = article.upVoteUsers.includes(authUser?.email);
@@ -89,16 +90,37 @@ const Article = ({ article }) => {
     }
   };
 
+  // handle delete article
+  const handleDeleteArticle = (article_id) => {
+    deleteArticle(article_id);
+  };
+
   return (
     <div className="card mx-10 mb-10 bg-base-100 shadow-md dark:bg-slate-800 dark:shadow-md dark:shadow-slate-700">
       {/* Settings */}
-      <div className="card-body flex-grow-0">
-        {/* ---PENDING--- */}
-        <div className="flex justify-end">
-          <BsThreeDots className="cursor-pointer" />
+      {article.email === authUser.email && (
+        <div className="absolute right-0">
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+              <BsThreeDots className="text-black dark:text-white" />
+            </label>
+            <ul
+              tabIndex={0}
+              className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-white dark:bg-slate-700 rounded-box w-52 space-y-2 text-black dark:text-white"
+            >
+              <li className="pl-3 cursor-pointer">Edit</li>
+              <li
+                className="pl-3 cursor-pointer"
+                onClick={() => handleDeleteArticle(article.id)}
+              >
+                Delete
+              </li>
+            </ul>
+          </div>
         </div>
-        {/* ---PENDING--- */}
+      )}
 
+      <div className="card-body flex-grow-0">
         {/* Title */}
         <p className="text-primary text-2xl font-extrabold uppercase break-words">
           {article.title}

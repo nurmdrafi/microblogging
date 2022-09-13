@@ -24,7 +24,7 @@ const Modal = ({ children }) => {
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
-      style={customStyles}
+      // style={customStyles}
       ariaHideApp={false}
       contentLabel="Modal"
     >

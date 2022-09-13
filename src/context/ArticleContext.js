@@ -62,9 +62,17 @@ export const ArticleContextProvider = ({ children }) => {
     return setArticles({ articles: updatedArticles });
   }
   /* ---PENDING--- */
-  /* function deleteArticle() {}
-  function editArticle() {} */
+  // function editArticle() {}
   /* ---PENDING--- */
+
+  // delete article
+  function deleteArticle(article_id) {
+    const updatedArticleList = articles.articles.filter(
+      (article) => article.id !== article_id
+    );
+    return setArticles({ articles: updatedArticleList });
+  }
+
 
   // upVote count
   function upVote(article_id, updateArticleWithUpVotes) {
@@ -101,13 +109,17 @@ export const ArticleContextProvider = ({ children }) => {
     return setArticles({ articles: updatedArticles });
   }
   /* ---PENDING--- */
-  /* // deleteComment
-  function deleteComment() {}
-
-  // editComment
-  function updateComment() {}
-  */
+  // function editComment() {}
   /* ---PENDING--- */
+
+  // deleteComment
+  function deleteComment(article_id, updatedArticleWithComments) {
+    const articleList = articles.articles.filter(
+      (article) => article.id !== article_id
+    );
+    const updatedArticles = [...articleList, updatedArticleWithComments];
+    return setArticles({ articles: updatedArticles });
+  }
 
   // loveComment
   function loveVote(article_id, updatedArticleWithLoveVote) {
@@ -123,7 +135,9 @@ export const ArticleContextProvider = ({ children }) => {
       value={{
         articles,
         addArticle,
+        deleteArticle,
         addComment,
+        deleteComment,
         upVote,
         downVote,
         updateToggleVote,
