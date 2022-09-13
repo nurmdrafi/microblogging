@@ -132,15 +132,15 @@ const Comment = ({ article }) => {
       {/* Comments */}
       <div className="mt-2">
         {commentList.map((comment) => (
-          <div key={comment?.id} className="grid grid-cols-8">
+          <div key={comment?.id} className="flex">
             {/* avatar */}
 
-            <span className=" bg-primary text-white text-xl md:text-2xl font-bold flex justify-center items-center uppercase mr-2 h-12">
+            <span className="flex-none bg-primary text-white text-xl md:text-2xl font-bold flex justify-center items-center uppercase mr-2 w-12 h-12">
               {comment?.user[0]}
             </span>
 
             {/* comment */}
-            <div className="col-span-7 mb-3">
+            <div className="grow overflow-x-hidden mb-3">
               <p className="p-3 bg-secondary dark:bg-slate-700 text-gray-600 dark:text-white break-words rounded-sm">
                 {" "}
                 <span className="text-primary capitalize">
