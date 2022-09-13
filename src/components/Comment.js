@@ -141,20 +141,22 @@ const Comment = ({ article }) => {
                 {/* love */}
                 <div className="flex justify-start items-center ">
                   <AiFillHeart
-                    className=" text-black text-xl cursor-pointer dark:text-white"
+                    className={`${comment.id} text-black text-xl cursor-pointer dark:text-white`}
                     onClick={() => handleLoveVote(comment?.id)}
                   />{" "}
                   <span className="ml-1">{comment?.loveCount}</span>
                 </div>
-                {/* edit */}
 
-                {/* delete */}
+                {/* ---PENDING--- */}
                 {authUser?.email === comment?.email && (
                   <div className="inline-block">
+                    {/* edit */}
                     <span className="cursor-pointer mr-3">Edit</span>
+                    {/* delete */}
                     <span className="cursor-pointer">Delete</span>
                   </div>
                 )}
+                {/* ---PENDING--- */}
               </div>
             </div>
           </div>

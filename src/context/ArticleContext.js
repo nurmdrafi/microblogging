@@ -61,8 +61,10 @@ export const ArticleContextProvider = ({ children }) => {
     const updatedArticles = [...articles.articles, newArticle];
     return setArticles({ articles: updatedArticles });
   }
-  function deleteArticle() {}
-  function updateArticle() {}
+  /* ---PENDING--- */
+  /* function deleteArticle() {}
+  function editArticle() {} */
+  /* ---PENDING--- */
 
   // upVote count
   function upVote(article_id, updateArticleWithUpVotes) {
@@ -98,11 +100,14 @@ export const ArticleContextProvider = ({ children }) => {
     const updatedArticles = [...articleList, updatedArticleWithComments];
     return setArticles({ articles: updatedArticles });
   }
-  // deleteComment
+  /* ---PENDING--- */
+  /* // deleteComment
   function deleteComment() {}
 
-  // updateComment
+  // editComment
   function updateComment() {}
+  */
+  /* ---PENDING--- */
 
   // loveComment
   function loveVote(article_id, updatedArticleWithLoveVote) {

@@ -93,9 +93,12 @@ const Article = ({ article }) => {
     <div className="card mx-10 mb-10 bg-base-100 shadow-md dark:bg-slate-800 dark:shadow-md dark:shadow-slate-700">
       {/* Settings */}
       <div className="card-body flex-grow-0">
+        {/* ---PENDING--- */}
         <div className="flex justify-end">
-          <BsThreeDots />
+          <BsThreeDots className="cursor-pointer" />
         </div>
+        {/* ---PENDING--- */}
+
         {/* Title */}
         <p className="text-primary text-2xl font-extrabold uppercase break-words">
           {article.title}
