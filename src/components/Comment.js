@@ -6,8 +6,7 @@ import useUserAuth from "../context/UserAuthContext";
 
 const Comment = ({ article }) => {
   const { authUser } = useUserAuth();
-  const { addComment, loveVote, deleteComment } =
-    useArticleContext();
+  const { addComment, loveVote, deleteComment } = useArticleContext();
   const [text, setText] = useState("");
   const [focus, setFocus] = useState(false);
   const id = uuidv4();
@@ -15,6 +14,7 @@ const Comment = ({ article }) => {
     return new Date(a.time) - new Date(b.time);
   });
 
+  console.log(article)
   // handle submit comment
   const handleSubmitComment = (e) => {
     if (e.key === "Enter") {
@@ -79,7 +79,6 @@ const Comment = ({ article }) => {
       };
       loveVote(article.id, updatedArticleWithLoveVote);
     } else if (currentVoter) {
-      console.log("clicked2");
       const commentWithLoveVote = {
         ...article.comments.find((comment) => comment.id === id),
         loveCount:
@@ -155,8 +154,8 @@ const Comment = ({ article }) => {
                 <div className="flex justify-start items-center ">
                   <AiFillHeart
                     className={`${
-                      comment.loveVoters.includes(authUser?.email) &&
-                      "text-red-600"
+                      comment?.loveVoters.includes(authUser?.email) &&
+                      "text-red-600 dark:text-red-600"
                     } text-black text-xl cursor-pointer dark:text-white`}
                     onClick={() => handleLoveVote(comment?.id)}
                   />{" "}
